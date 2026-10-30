@@ -377,6 +377,15 @@ function dacs_inject_schema() {
         $insurance_raw = get_field('global_clinic_insurance', 'option');
         if (!empty($insurance_raw)) $location_schema["paymentAccepted"] = array_filter(array_map('trim', explode("\n", $insurance_raw)));
         
+        // v3.2: the practice's providers as Person entities linked to the clinic (employee ↔ worksFor).
+        if ( $is_primary_row && apply_filters( 'dacs_schema_clinic_employees', true ) ) {
+            $team_ids = get_posts( [ 'post_type' => apply_filters( 'dacs_provider_post_type', 'team' ), 'post_status' => 'publish', 'numberposts' => -1, 'fields' => 'ids', 'orderby' => 'menu_order date', 'order' => 'ASC' ] );
+            foreach ( $team_ids as $t_id ) {
+                $t_type = get_field( 'provider_type', $t_id ) ?: 'Person';
+                $location_schema["employee"][] = [ "@type" => array_values( array_unique( [ "Person", dacs_provider_schema_type( $t_type ) ] ) ), "@id" => get_permalink( $t_id ) . "#provider", "name" => get_the_title( $t_id ), "jobTitle" => get_field( 'exact_job_title', $t_id ) ?: null, "url" => get_permalink( $t_id ), "worksFor" => [ "@id" => $loc_id ] ];
+            }
+        }
+
         if ( !$is_primary_row && $primary_location ) {
             $location_schema["parentOrganization"] = ["@type" => "MedicalOrganization", "@id" => $clinic_id, "name" => $primary_location['location_name']];
         }

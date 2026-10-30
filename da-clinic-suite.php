@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Digital Atlas Clinic Suite
  * Plugin URI:  https://github.com/Digital-Atlas/da-clinic-suite
- * Description: Clinic Settings, EEAT medical schema, HIPAA-compliant Freshpaint map and Phreesia self-scheduling in one plugin. Each module can be switched on or off under Clinic Settings.
- * Version:     3.1.0
+ * Description: Clinic Settings, EEAT medical schema, blog author schema, HIPAA-compliant Freshpaint map and Phreesia self-scheduling in one plugin. Each module can be switched on or off under Clinic Settings.
+ * Version:     3.2.0
  * Author:      Digital Atlas
  * Requires PHP: 7.4
  * Text Domain: da-clinic-suite
@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'DACS_VERSION', '3.1.0' );
+define( 'DACS_VERSION', '3.2.0' );
 define( 'DACS_FILE', __FILE__ );
 define( 'DACS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DACS_URL', plugin_dir_url( __FILE__ ) );
@@ -42,6 +42,7 @@ function dacs_modules() {
 		'schema'     => array( 'label' => 'Schema',          'file' => 'modules/schema.php',     'legacy_fn' => 'gd_inject_eeat_schema',   'legacy' => 'Dermatology EEAT Master Authority Schema' ),
 		'map'        => array( 'label' => 'HIPAA Map',       'file' => 'modules/map.php',        'legacy_fn' => 'freshpaint_map_shortcode', 'legacy' => 'Freshpaint Map Shortcode + Admin' ),
 		'scheduling' => array( 'label' => 'Self-Scheduling', 'file' => 'modules/scheduling.php', 'legacy_fn' => '_phreesia_widget',         'legacy' => 'Phreesia Self-Scheduling Widget' ),
+		'blog'       => array( 'label' => 'Blog Schema',     'file' => 'modules/blog.php',       'legacy_fn' => '',                         'legacy' => '' ),
 	);
 }
 
@@ -58,7 +59,7 @@ $GLOBALS['dacs_blocked_modules'] = array();
 add_action( 'plugins_loaded', function () {
 	foreach ( dacs_modules() as $key => $m ) {
 		if ( ! dacs_module_enabled( $key ) ) continue;
-		if ( function_exists( $m['legacy_fn'] ) ) {
+		if ( $m['legacy_fn'] && function_exists( $m['legacy_fn'] ) ) {
 			$GLOBALS['dacs_blocked_modules'][ $key ] = $m;
 			continue;
 		}

@@ -1,8 +1,15 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.1.0
+**Current Version:** 3.2.0
 
 ---
+
+### [v3.2.0] - Blog Schema
+* **New Blog Schema module** (Clinic Settings → Modules, on by default). Blog posts get a `BlogPosting` whose author is a Team provider instead of the WordPress user. The author comes from the new **Written by** field, or else the provider named in a "by …" byline near the top of the post, or else the clinic.
+* **Medical review:** the new **Medically reviewed by** and **Review date** fields add `reviewedBy` and `lastReviewed` to the post's WebPage. Nothing is added unless a reviewer is set.
+* **Works with Yoast SEO:** the module edits Yoast's schema graph rather than adding a second one. It changes Article to BlogPosting, points the author at the provider, and removes the WordPress user's Person node. Without Yoast it prints its own WebPage + BlogPosting graph.
+* **Clinic providers:** the primary clinic entity now lists the Team providers as `employee` (Person / IndividualPhysician with name, job title, profile URL and `worksFor`).
+* Filters: `dacs_blog_post_types`, `dacs_provider_post_type`, `dacs_blog_author`, `dacs_blog_reviewer`, `dacs_schema_clinic_employees`.
 
 ### [v3.1.0] - Updates from GitHub
 * **Auto-updates:** the plugin now checks GitHub Releases for `Digital-Atlas/da-clinic-suite` (Plugin Update Checker v5.6, bundled in `lib/`). WordPress shows "Update available" like any other plugin and installs the release's `da-clinic-suite.zip`.

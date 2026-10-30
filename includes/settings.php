@@ -47,6 +47,7 @@ add_action( 'acf/include_fields', function () {
 			dacs_toggle( 'schema', 'Enable / Disable: Schema', 'JSON-LD for the clinic, locations, providers, conditions and procedures.' ),
 			dacs_toggle( 'map', 'Enable / Disable: HIPAA Map', 'Freshpaint map for [freshpaint_map], built from the clinic locations below.' ),
 			dacs_toggle( 'scheduling', 'Enable / Disable: Self-Scheduling', 'Phreesia booking widget for [phreesia_widget].' ),
+			dacs_toggle( 'blog', 'Enable / Disable: Blog Schema', 'BlogPosting schema for blog posts, with a provider as author and an optional medical reviewer.' ),
 
 			dacs_tab( 'scheduling', 'Self-Scheduling' ),
 			// Same key and name as the old "Phreesia Connections" field, so the saved URL carries over untouched.
@@ -63,6 +64,29 @@ add_action( 'acf/include_fields', function () {
 			dacs_f( 'map_link_text', 'dacs_map_link_text', 'Booking Link Text', 'text', array( 'default_value' => 'Book Appointment' ) ),
 		),
 	) );
+
+	// Blog author / reviewer fields (Blog Schema module).
+	if ( dacs_module_enabled( 'blog' ) ) {
+		$provider_pt = (string) apply_filters( 'dacs_provider_post_type', 'team' );
+		$locations   = array();
+		foreach ( (array) apply_filters( 'dacs_blog_post_types', array( 'post' ) ) as $pt ) {
+			$locations[] = array( array( 'param' => 'post_type', 'operator' => '==', 'value' => $pt ) );
+		}
+		$who = array( 'post_type' => array( $provider_pt ), 'post_status' => array( 'publish' ), 'return_format' => 'id', 'allow_null' => 1, 'multiple' => 0, 'ui' => 1 );
+		acf_add_local_field_group( array(
+			'key'          => 'group_dacs_blog',
+			'title'        => 'Author & Medical Review',
+			'position'     => 'side',
+			'style'        => 'default',
+			'location'     => $locations,
+			'show_in_rest' => 1,
+			'fields'       => array(
+				dacs_f( 'post_author', 'dacs_post_author', 'Written by', 'post_object', array_merge( $who, array( 'instructions' => 'Provider shown as the author in search results. Leave empty to use the "by …" byline in the post, or the clinic.' ) ) ),
+				dacs_f( 'post_reviewer', 'dacs_post_reviewer', 'Medically reviewed by', 'post_object', array_merge( $who, array( 'instructions' => 'Only set this when the provider has actually reviewed the post.' ) ) ),
+				dacs_f( 'post_reviewed_date', 'dacs_post_reviewed_date', 'Review date', 'date_picker', array( 'instructions' => 'Defaults to the last modified date.', 'display_format' => 'F j, Y', 'return_format' => 'Y-m-d', 'first_day' => 0 ) ),
+			),
+		) );
+	}
 
 	// Clinic locations + EEAT groups, shipped with the plugin so every site gets the same fields on update.
 	if ( ! apply_filters( 'dacs_load_acf_json', true ) ) return;

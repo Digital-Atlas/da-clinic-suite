@@ -1,12 +1,13 @@
 # Digital Atlas Clinic Suite
 
-One plugin for Digital Atlas dermatology sites. It replaces three plugins:
+One plugin for Digital Atlas dermatology sites. It replaces three plugins and adds blog author schema:
 
 | Module | Replaces | Shortcode |
 |---|---|---|
 | **Schema** | Dermatology EEAT Master Authority Schema v2.8 | — (JSON-LD in `<head>`) |
 | **HIPAA Map** | Freshpaint Map Shortcode + Admin v2.1 | `[freshpaint_map]` |
 | **Self-Scheduling** | Phreesia Self-Scheduling Widget v2.4 | `[phreesia_widget]` |
+| **Blog Schema** | — (new in 3.2) | — (edits Yoast's graph, or prints its own) |
 
 Each module is switched on or off under **Clinic Settings → Modules**. A module that is off loads no code. Its shortcode renders nothing, so pages never show raw shortcode text.
 
@@ -14,7 +15,7 @@ Each module is switched on or off under **Clinic Settings → Modules**. A modul
 
 ## Clinic Settings
 
-* **Modules:** the three on/off switches.
+* **Modules:** the on/off switches for each module.
 * **Self-Scheduling:** global Phreesia URL and the widget's starting height.
 * **HIPAA Map:** zoom, zoom on click, marker colour, map height, location list on/off, booking link text.
 * **Locations:** one row per clinic: name, phone, address, coordinates, hours, holidays, schema pages, **Booking Page URL**, optional per-location **Phreesia URL**. The schema module and the map both read from these rows, so the details only need entering once.
@@ -53,13 +54,18 @@ Hooks:
 * `dacs_schema_treatment_post_types` (array, default `treatment`, `service`, `services`): post types that get condition / procedure schema.
 * `dacs_module_enabled` (bool, module): force a module on or off in code.
 * `dacs_load_acf_json` (bool): set false to manage the JSON groups yourself.
+* `dacs_blog_post_types` (array, default `post`): post types that get Blog Schema and the Author & Medical Review fields.
+* `dacs_provider_post_type` (string, default `team`): post type that holds providers.
+* `dacs_blog_author` / `dacs_blog_reviewer` (int provider ID, post ID): override the detected author or reviewer.
+* `dacs_schema_clinic_employees` (bool): set false to leave providers off the clinic entity.
 
 ## Schema architecture
 
 1. **Procedures:** `MedicalProcedure` with body location, preparation, and the conditions treated.
 2. **Conditions:** `MedicalCondition` with codes (ICD-10, SNOMED), epidemiology, risk factors, symptoms and sub-types (`differentialDiagnosis`).
 3. **Team:** `Person` + `IndividualPhysician` (physicians) or `Person`, with credentials, education, expertise (`knowsAbout`), memberships, affiliations, profiles (`sameAs`) and NPI. Linked to the clinic through `worksFor` and `practicesAt`.
-4. **Clinic / locations:** `MedicalOrganization` (primary) or `MedicalClinic` with address, geo, opening hours, holidays, logo, `sameAs` and insurance.
+4. **Clinic / locations:** `MedicalOrganization` (primary) or `MedicalClinic` with address, geo, opening hours, holidays, logo, `sameAs` and insurance. The primary clinic lists the Team providers as `employee`.
+5. **Blog posts:** `BlogPosting` authored by a provider: the post's **Written by** field, else the provider named in a "by …" byline, else the clinic. **Medically reviewed by** adds `reviewedBy` / `lastReviewed` to the WebPage. With Yoast SEO the module rewrites Yoast's Article into a BlogPosting and drops the WordPress user's Person node, so there is one graph per page.
 
 ## Updates and releases
 
