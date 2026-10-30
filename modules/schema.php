@@ -87,7 +87,7 @@ function dacs_inject_schema() {
 
     // --- 3. GLOBAL ENTITY LOGIC ---
     $base_url = trailingslashit( get_home_url() );
-    $primary_fragment = $primary_location['location_fragment'] ?? '#main-clinic';
+    $primary_fragment = dacs_location_fragment( $primary_location['location_fragment'] ?? '', '#main-clinic' );
     $clinic_id = $base_url . $primary_fragment;
     $entity_type = "MedicalOrganization"; 
 
@@ -102,6 +102,8 @@ function dacs_inject_schema() {
         $treatment_schema = [
             "@context" => "https://schema.org",
             "@type" => "MedicalWebPage",
+            // Same @id as Yoast's WebPage (the permalink), so the two merge into one page entity.
+            "@id" => get_permalink($post_id),
             "name" =>  $clinical_name ?: get_the_title($post_id),
             "description" => get_field('procedure_description', $post_id) ?: get_field('condition_description', $post_id),
             "lastReviewed" => get_the_modified_date('c', $post_id),
@@ -354,12 +356,14 @@ function dacs_inject_schema() {
             else { $provider_entity["identifier"] = ["@type" => "PropertyValue", "name" => "NPI", "value" => $npi]; }
         }
 
-        dacs_print_schema( ["@context" => "https://schema.org", "@graph" => [["@type" => "MedicalWebPage", "name" => get_the_title($post_id)], $provider_entity]] );
+        // ProfilePage with the Yoast WebPage @id (merges into one page entity), about the provider.
+        $profile_page = ["@type" => "ProfilePage", "@id" => get_permalink($post_id), "name" => get_the_title($post_id), "mainEntity" => ["@id" => $provider_entity["@id"]]];
+        dacs_print_schema( ["@context" => "https://schema.org", "@graph" => [$profile_page, $provider_entity]] );
     }
 
     // --- 6. SATELLITE / GLOBAL CLINIC INJECTION ---
     if ( $current_page_location ) {
-        $loc_id = trailingslashit( get_home_url() ) . ($current_page_location['location_fragment'] ?: '#clinic');
+        $loc_id = trailingslashit( get_home_url() ) . dacs_location_fragment( $current_page_location['location_fragment'] ?? '', '#clinic' );
         $is_primary_row = !empty($current_page_location['is_primary']);
         $local_entity_type = $is_primary_row ? "MedicalOrganization" : "MedicalClinic";
 
@@ -388,6 +392,9 @@ function dacs_inject_schema() {
 
         if ( !$is_primary_row && $primary_location ) {
             $location_schema["parentOrganization"] = ["@type" => "MedicalOrganization", "@id" => $clinic_id, "name" => $primary_location['location_name']];
+        } elseif ( $is_primary_row && ( $yoast_org = dacs_yoast_organization_id() ) ) {
+            // Link the primary clinic to Yoast's Organization instead of leaving two unrelated organisations.
+            $location_schema["parentOrganization"] = ["@id" => $yoast_org];
         }
 
         // Address: drop entirely if only the hardcoded country would remain.

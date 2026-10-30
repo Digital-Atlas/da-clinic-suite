@@ -41,6 +41,30 @@ function dacs_get_locations() {
 	return $cache;
 }
 
+/**
+ * Normalise a location's @id fragment to "#name" so home URL + fragment never doubles the slash
+ * ("/#orlando-clinic" or "orlando-clinic" both become "#orlando-clinic"). Empty → $default.
+ */
+function dacs_location_fragment( $fragment, $default = '#main-clinic' ) {
+	$fragment = ltrim( trim( (string) $fragment ), '/#' );
+	return $fragment === '' ? $default : '#' . $fragment;
+}
+
+/**
+ * Yoast's Organization @id when Yoast outputs one, so the clinic can point at it. Filter: dacs_yoast_organization_id.
+ * @return string|null
+ */
+function dacs_yoast_organization_id() {
+	$id = null;
+	if ( defined( 'WPSEO_VERSION' ) ) {
+		$titles = get_option( 'wpseo_titles' );
+		if ( ( $titles['company_or_person'] ?? 'company' ) === 'company' && ! empty( $titles['company_name'] ) ) {
+			$id = trailingslashit( get_home_url() ) . '#organization';
+		}
+	}
+	return apply_filters( 'dacs_yoast_organization_id', $id );
+}
+
 /** Find a location by 1-based index or (partial, case-insensitive) name. */
 function dacs_find_location( $needle ) {
 	$needle = trim( (string) $needle );

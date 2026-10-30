@@ -1,8 +1,15 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.0
+**Current Version:** 3.2.1
 
 ---
+
+### [v3.2.1] - Schema links up with Yoast
+* **One page entity, not two:** the treatment page's `MedicalWebPage` now has the page URL as its `@id`, the same ID as Yoast's WebPage, so the two merge instead of appearing as separate pages.
+* **Team pages:** the bare `MedicalWebPage` (no ID) is now a `ProfilePage` with the page URL as its `@id` and the provider as its `mainEntity`.
+* **Clinic → Yoast Organization:** when Yoast outputs an Organization, the primary clinic gets it as `parentOrganization`, so the homepage no longer has two unrelated organisations. Filter: `dacs_yoast_organization_id` (return null to turn this off).
+* **Fragment fix:** location fragments are normalised to `#name`, so a fragment saved as `/#orlando-clinic` no longer produces a `//#orlando-clinic` @id. Applies to the schema and blog modules.
+* Tip: in Yoast, set **Settings → Content types → Treatments → Schema → Page type** to "Medical Web Page" and **Team** to "Profile Page" so both plugins name the page type the same way.
 
 ### [v3.2.0] - Blog Schema
 * **New Blog Schema module** (Clinic Settings → Modules, on by default). Blog posts get a `BlogPosting` whose author is a Team provider instead of the WordPress user. The author comes from the new **Written by** field, or else the provider named in a "by …" byline near the top of the post, or else the clinic.
