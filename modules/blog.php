@@ -30,7 +30,7 @@ function dacs_blog_clinic_ref() {
 	if ( is_array( $locs ) ) {
 		foreach ( $locs as $loc ) {
 			if ( ! empty( $loc['is_primary'] ) ) {
-				$fragment = $loc['location_fragment'] ?: $fragment;
+				$fragment = dacs_location_fragment( $loc['location_fragment'] ?? '', $fragment );
 				$name     = $loc['location_name'] ?: $name;
 				break;
 			}
