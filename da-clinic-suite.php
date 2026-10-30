@@ -3,7 +3,7 @@
  * Plugin Name: Digital Atlas Clinic Suite
  * Plugin URI:  https://github.com/Digital-Atlas/da-clinic-suite
  * Description: Clinic Settings, EEAT medical schema, blog author schema, HIPAA-compliant Freshpaint map and Phreesia self-scheduling in one plugin. Each module can be switched on or off under Clinic Settings.
- * Version:     3.2.1
+ * Version:     3.2.2
  * Author:      Digital Atlas
  * Requires PHP: 7.4
  * Text Domain: da-clinic-suite
@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'DACS_VERSION', '3.2.1' );
+define( 'DACS_VERSION', '3.2.2' );
 define( 'DACS_FILE', __FILE__ );
 define( 'DACS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DACS_URL', plugin_dir_url( __FILE__ ) );

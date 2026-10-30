@@ -1,8 +1,12 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.1
+**Current Version:** 3.2.2
 
 ---
+
+### [v3.2.2] - Works with each site's own post types
+* **Condition / procedure fields on any treatment post type:** the EEAT field groups now attach to `treatment`, `services` and `service`, the same types the schema already covered. Before, they attached to one type only (`treatment` unless a site set `dacs_treatment_post_type`), so on sites like Seacoast (`service`) the fields vanished from the editor and the schema had nothing to read. Relationship fields that point at treatments list whichever of those types the site has. New filter: `dacs_treatment_post_types` (array). The old `dacs_treatment_post_type` filter still works and narrows the list to the one type it returns.
+* **Display on Pages accepts location posts:** a location's "Display on Pages" field lists pages plus any `location`, `locations`, `clinic` or `clinics` post type the site has, so sites with a location post type can link their location pages (and those links survive saving Clinic Settings). Filter: `dacs_location_page_post_types`.
 
 ### [v3.2.1] - Schema links up with Yoast
 * **One page entity, not two:** the treatment page's `MedicalWebPage` now has the page URL as its `@id`, the same ID as Yoast's WebPage, so the two merge instead of appearing as separate pages.

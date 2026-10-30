@@ -50,7 +50,9 @@ The old plugins' options are left in place, so reactivating one still works.
 `acf-fields.json` ships with the plugin and is registered as local field groups, so every site gets identical fields on update. Change fields in this file, not in a site's ACF admin, or sites will drift apart. Values are stored by field name, so existing data is kept.
 
 Hooks:
-* `dacs_treatment_post_type` (string, default `treatment`): post type for condition / procedure fields.
+* `dacs_treatment_post_types` (array, default `treatment`, `services`, `service`): post types that get the condition / procedure fields. Types a site doesn't have are ignored.
+* `dacs_treatment_post_type` (string): older single-type version of the above. Returning anything other than `treatment` limits the fields to that one type.
+* `dacs_location_page_post_types` (array, default `page`, `location`, `locations`, `clinic`, `clinics`): post types a location's "Display on Pages" field can link to.
 * `dacs_schema_treatment_post_types` (array, default `treatment`, `service`, `services`): post types that get condition / procedure schema.
 * `dacs_module_enabled` (bool, module): force a module on or off in code.
 * `dacs_load_acf_json` (bool): set false to manage the JSON groups yourself.

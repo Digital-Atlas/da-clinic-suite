@@ -95,12 +95,17 @@ add_action( 'acf/include_fields', function () {
 	$groups = json_decode( (string) file_get_contents( $file ), true );
 	if ( ! is_array( $groups ) ) return;
 
-	// Sites whose condition / procedure pages are not the `treatment` post type (e.g. NDDA uses `services`).
-	$treatment_pt = (string) apply_filters( 'dacs_treatment_post_type', 'treatment' );
-	$retarget     = function ( array $fields ) use ( &$retarget, $treatment_pt ) {
+	// Condition / procedure pages are `treatment` on most sites, `services` on NDDA and `service` on Seacoast.
+	// The EEAT groups attach to every candidate type (a rule for a type a site doesn't have never matches), and
+	// relationship fields offer whichever of those types exist (see dacs_load_field_post_types below).
+	$treatment_pts = dacs_treatment_post_types();
+	$retarget      = function ( array $fields ) use ( &$retarget, $treatment_pts ) {
 		foreach ( $fields as &$f ) {
-			if ( ! empty( $f['post_type'] ) && is_array( $f['post_type'] ) ) {
-				$f['post_type'] = array_values( array_unique( array_map( function ( $t ) use ( $treatment_pt ) { return $t === 'treatment' ? $treatment_pt : $t; }, $f['post_type'] ) ) );
+			if ( ! empty( $f['post_type'] ) && is_array( $f['post_type'] ) && in_array( 'treatment', $f['post_type'], true ) ) {
+				$out = array();
+				foreach ( $f['post_type'] as $t ) $out = array_merge( $out, $t === 'treatment' ? $treatment_pts : array( $t ) );
+				$f['post_type'] = array_values( array_unique( $out ) );
+				$GLOBALS['dacs_pt_fields'][ $f['key'] ] = true;
 			}
 			if ( ! empty( $f['sub_fields'] ) ) $f['sub_fields'] = $retarget( $f['sub_fields'] );
 		}
@@ -111,16 +116,58 @@ add_action( 'acf/include_fields', function () {
 	foreach ( $groups as $g ) {
 		$is_clinic = ( $g['key'] ?? '' ) === 'group_clinic_multi_location_settings';
 		if ( ! $is_clinic && ! $schema_on ) continue; // provider / condition / procedure fields only matter for schema
-		foreach ( $g['location'] ?? array() as $i => $or ) {
-			foreach ( $or as $j => $rule ) {
-				if ( $rule['param'] === 'post_type' && $rule['value'] === 'treatment' ) $g['location'][ $i ][ $j ]['value'] = $treatment_pt;
+		$location = array();
+		foreach ( $g['location'] ?? array() as $or ) {
+			$is_treatment = false;
+			foreach ( $or as $rule ) if ( $rule['param'] === 'post_type' && $rule['value'] === 'treatment' ) $is_treatment = true;
+			if ( ! $is_treatment ) { $location[] = $or; continue; }
+			foreach ( $treatment_pts as $pt ) { // one OR group per post type, keeping the other rules (e.g. condition / procedure term)
+				$location[] = array_map( function ( $rule ) use ( $pt ) {
+					if ( $rule['param'] === 'post_type' && $rule['value'] === 'treatment' ) $rule['value'] = $pt;
+					return $rule;
+				}, $or );
 			}
 		}
+		$g['location']     = $location;
 		$g['fields']       = $retarget( $g['fields'] ?? array() );
 		$g['show_in_rest'] = 1;
 		acf_add_local_field_group( $g );
 	}
 } );
+
+/**
+ * Post types that hold condition / procedure pages. Default: treatment, services, service.
+ * Filter dacs_treatment_post_types (array). The older single-type filter dacs_treatment_post_type still works:
+ * a site that returns something other than 'treatment' from it uses only that type.
+ */
+function dacs_treatment_post_types() {
+	$types  = array( 'treatment', 'services', 'service' );
+	$single = (string) apply_filters( 'dacs_treatment_post_type', 'treatment' );
+	if ( $single !== '' && $single !== 'treatment' ) $types = array( $single );
+	return array_values( array_unique( array_filter( array_map( 'strval', (array) apply_filters( 'dacs_treatment_post_types', $types ) ) ) ) );
+}
+
+/**
+ * Post types for a location's "Display on Pages": pages plus any location post type the site has.
+ * Filter: dacs_location_page_post_types.
+ */
+function dacs_location_page_post_types() {
+	return (array) apply_filters( 'dacs_location_page_post_types', array( 'page', 'location', 'locations', 'clinic', 'clinics' ) );
+}
+
+/**
+ * Field post_type lists can name types a site doesn't have (the candidates above). Trim them to registered
+ * types when the field loads (after init), so ACF's relationship filter and query only see real ones.
+ */
+$GLOBALS['dacs_pt_fields'] = array( 'field_location_pages' => true );
+add_filter( 'acf/load_field', 'dacs_load_field_post_types' );
+function dacs_load_field_post_types( $field ) {
+	if ( empty( $field['key'] ) || empty( $GLOBALS['dacs_pt_fields'][ $field['key'] ] ) ) return $field;
+	$types = $field['key'] === 'field_location_pages' ? dacs_location_page_post_types() : (array) ( $field['post_type'] ?? array() );
+	$real  = array_values( array_filter( $types, 'post_type_exists' ) );
+	$field['post_type'] = $real ?: array( 'page' );
+	return $field;
+}
 
 /** Read a Clinic Suite option with a default when it has never been saved. */
 function dacs_opt( $name, $default ) {
