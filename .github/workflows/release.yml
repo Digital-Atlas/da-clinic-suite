@@ -1,0 +1,39 @@
+# Push a tag like v3.0.1 → builds da-clinic-suite.zip and publishes a GitHub Release with it attached.
+# Sites running the plugin then see the update in WordPress.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the tag matches the plugin version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          HEADER=$(grep -m1 -E '^\s*\*\s*Version:' da-clinic-suite.php | sed -E 's/.*Version:\s*//' | tr -d '[:space:]')
+          CONST=$(grep -m1 "define( 'DACS_VERSION'" da-clinic-suite.php | sed -E "s/.*'DACS_VERSION', '([^']+)'.*/\1/")
+          echo "tag=$TAG header=$HEADER constant=$CONST"
+          if [ "$TAG" != "$HEADER" ] || [ "$TAG" != "$CONST" ]; then
+            echo "::error::Tag v$TAG must match the Version header ($HEADER) and DACS_VERSION ($CONST) in da-clinic-suite.php"
+            exit 1
+          fi
+
+      - name: PHP syntax check
+        run: find . -path ./lib -prune -o -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Build zip
+        run: bin/build.sh
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/da-clinic-suite.zip
+          generate_release_notes: true

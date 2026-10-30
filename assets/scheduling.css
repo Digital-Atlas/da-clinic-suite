@@ -1,0 +1,13 @@
+/* Digital Atlas Clinic Suite — Self-Scheduling */
+.dacs-scheduler { position: relative; max-width: 100%; }
+.dacs-scheduler .schedule-appointment { position: relative; }
+.dacs-scheduler-loading {
+	position: absolute; inset: 0; z-index: 0;
+	display: flex; align-items: center; justify-content: center;
+	background: #fff;
+}
+.dacs-scheduler-loading img { width: 150px; height: auto; }
+.dacs-scheduler-frame {
+	display: block; width: 100%; border: 0;
+	position: relative; z-index: 1; background: transparent;
+}

@@ -1,0 +1,31 @@
+/* Digital Atlas Clinic Suite — HIPAA Map */
+.dacs-map .maplibregl-popup-content {
+	min-width: 260px;
+	font-style: normal;
+	font-size: 115%;
+	line-height: 1.6em;
+}
+.dacs-map-popup h3 { margin: 0 0 .4em; font-size: 1.1em; }
+.dacs-map-popup address,
+.dacs-map-hours { white-space: pre-line; font-style: normal; margin: 0 0 .4em; }
+.dacs-map-book { display: inline-block; margin-top: .3em; font-weight: 600; }
+
+.dacs-map.flex-map { display: flex; gap: 2em; align-items: flex-start; }
+.dacs-map.flex-map .left-column { width: 30%; overflow-y: auto; }
+.dacs-map.flex-map .right-column { width: 70%; }
+
+.dacs-map-card {
+	display: block; width: 100%; text-align: left; cursor: pointer;
+	background: none; border: 0; border-bottom: 1px solid #ccc;
+	padding: 15px 15px 30px; font: inherit; color: inherit;
+}
+.dacs-map-card:hover,
+.dacs-map-card:focus-visible { background: rgba(0, 0, 0, .04); }
+.dacs-map-card strong,
+.dacs-map-card span { display: block; white-space: pre-line; }
+
+@media (max-width: 767px) {
+	.dacs-map.flex-map { flex-direction: column-reverse; gap: 1em; }
+	.dacs-map.flex-map .left-column,
+	.dacs-map.flex-map .right-column { width: 100%; }
+}

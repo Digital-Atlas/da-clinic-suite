@@ -1,0 +1,2332 @@
+[
+    {
+        "key": "group_clinic_multi_location_settings",
+        "title": "Clinic Locations & Global Settings",
+        "fields": [
+            {
+                "key": "field_global_schema_tab",
+                "label": "Global Schema Defaults",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_global_clinic_logo",
+                "label": "Practice Logo",
+                "name": "global_clinic_logo",
+                "aria-label": "",
+                "type": "image",
+                "instructions": "Ensure the logo is clear on a white background, as it may be rendered in Google Knowledge Graph panels. For best visibility in search results, a logo should ideally be 200-300 pixels wide.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "url",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": "",
+                "allow_in_bindings": 1,
+                "preview_size": "medium"
+            },
+            {
+                "key": "field_global_clinic_sameas",
+                "label": "Global sameAs Links",
+                "name": "global_clinic_sameas",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "One URL per line.",
+                "required": false,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "new_lines": "",
+                "maxlength": "",
+                "placeholder": "",
+                "rows": ""
+            },
+            {
+                "key": "field_global_clinic_pricerange",
+                "label": "Price Range",
+                "name": "global_clinic_pricerange",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "",
+                "required": false,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "$": "$ (Affordable)",
+                    "$$": "$$ (Moderate)",
+                    "$$$": "$$$ (Premium)",
+                    "$$$$": "$$$$ (Luxury)"
+                },
+                "default_value": "$$",
+                "multiple": 0,
+                "allow_null": 0,
+                "ui": 0,
+                "ajax": 0,
+                "placeholder": "",
+                "return_format": "value",
+                "create_options": 0,
+                "save_options": 0
+            },
+            {
+                "key": "field_global_clinic_insurance",
+                "label": "Accepted Insurance",
+                "name": "global_clinic_insurance",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "One per line.",
+                "required": false,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "new_lines": "",
+                "maxlength": "",
+                "placeholder": "",
+                "rows": ""
+            },
+            {
+                "key": "field_locations_repeater_tab",
+                "label": "Location Management",
+                "name": "",
+                "aria-label": "",
+                "type": "tab",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "placement": "top",
+                "endpoint": 0,
+                "selected": 0
+            },
+            {
+                "key": "field_clinic_locations_repeater",
+                "label": "Clinic Locations",
+                "name": "clinic_locations",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": false,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "block",
+                "min": 0,
+                "max": 0,
+                "rows_per_page": 20,
+                "button_label": "Add Row",
+                "collapsed": "",
+                "sub_fields": [
+                    {
+                        "key": "field_is_primary_location",
+                        "label": "Is Primary Location?",
+                        "name": "is_primary",
+                        "aria-label": "",
+                        "type": "true_false",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "ui": 1,
+                        "default_value": 0,
+                        "message": "",
+                        "ui_on_text": "",
+                        "ui_off_text": "",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "key": "field_location_name",
+                        "label": "Location Name",
+                        "name": "location_name",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 1,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "key": "field_location_fragment",
+                        "label": "Location Fragment ID",
+                        "name": "location_fragment",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 1,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "key": "field_is_accepting_patients",
+                        "label": "Accepting New Patients?",
+                        "name": "is_accepting_new_patients",
+                        "aria-label": "",
+                        "type": "true_false",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": 1,
+                        "ui": 1,
+                        "message": "",
+                        "ui_on_text": "",
+                        "ui_off_text": "",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "key": "field_location_area_served",
+                        "label": "Area Served",
+                        "name": "area_served",
+                        "aria-label": "",
+                        "type": "textarea",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "new_lines": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "rows": "",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "key": "field_location_phone",
+                        "label": "Phone Number",
+                        "name": "phone",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "key": "field_location_address_group",
+                        "label": "Address Details",
+                        "name": "address",
+                        "aria-label": "",
+                        "type": "group",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "layout": "block",
+                        "parent_repeater": "field_clinic_locations_repeater",
+                        "sub_fields": [
+                            {
+                                "key": "f_street",
+                                "label": "Street",
+                                "name": "street",
+                                "aria-label": "",
+                                "type": "text",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "key": "f_city",
+                                "label": "City",
+                                "name": "city",
+                                "aria-label": "",
+                                "type": "text",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "key": "f_state",
+                                "label": "State",
+                                "name": "state",
+                                "aria-label": "",
+                                "type": "text",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "key": "f_zip",
+                                "label": "Zip",
+                                "name": "zip",
+                                "aria-label": "",
+                                "type": "text",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            }
+                        ]
+                    },
+                    {
+                        "key": "field_location_geo",
+                        "label": "Geo Coordinates",
+                        "name": "geo",
+                        "aria-label": "",
+                        "type": "group",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "layout": "block",
+                        "parent_repeater": "field_clinic_locations_repeater",
+                        "sub_fields": [
+                            {
+                                "key": "f_lat",
+                                "label": "Latitude",
+                                "name": "lat",
+                                "aria-label": "",
+                                "type": "text",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            },
+                            {
+                                "key": "f_long",
+                                "label": "Longitude",
+                                "name": "long",
+                                "aria-label": "",
+                                "type": "text",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "maxlength": "",
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": ""
+                            }
+                        ]
+                    },
+                    {
+                        "key": "field_location_hours",
+                        "label": "Opening Hours",
+                        "name": "opening_hours",
+                        "aria-label": "",
+                        "type": "repeater",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "min": 0,
+                        "max": 0,
+                        "rows_per_page": 20,
+                        "layout": "table",
+                        "button_label": "Add Row",
+                        "collapsed": "",
+                        "parent_repeater": "field_clinic_locations_repeater",
+                        "sub_fields": [
+                            {
+                                "key": "f_days",
+                                "label": "Days",
+                                "name": "days",
+                                "aria-label": "",
+                                "type": "select",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "multiple": 1,
+                                "choices": {
+                                    "Monday": "Monday",
+                                    "Tuesday": "Tuesday",
+                                    "Wednesday": "Wednesday",
+                                    "Thursday": "Thursday",
+                                    "Friday": "Friday",
+                                    "Saturday": "Saturday",
+                                    "Sunday": "Sunday"
+                                },
+                                "ui": 1,
+                                "allow_null": 0,
+                                "default_value": [],
+                                "ajax": 0,
+                                "placeholder": "",
+                                "return_format": "value",
+                                "create_options": 0,
+                                "save_options": 0,
+                                "parent_repeater": "field_location_hours"
+                            },
+                            {
+                                "key": "f_opens",
+                                "label": "Opens",
+                                "name": "opens",
+                                "aria-label": "",
+                                "type": "time_picker",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "return_format": "g:i a",
+                                "display_format": "g:i a",
+                                "parent_repeater": "field_location_hours"
+                            },
+                            {
+                                "key": "f_closes",
+                                "label": "Closes",
+                                "name": "closes",
+                                "aria-label": "",
+                                "type": "time_picker",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "return_format": "g:i a",
+                                "display_format": "g:i a",
+                                "parent_repeater": "field_location_hours"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "field_location_public_holidays",
+                        "label": "Public Holiday Hours",
+                        "name": "public_holidays",
+                        "aria-label": "",
+                        "type": "repeater",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "min": 0,
+                        "max": 0,
+                        "rows_per_page": 20,
+                        "layout": "table",
+                        "button_label": "Add Row",
+                        "collapsed": "",
+                        "parent_repeater": "field_clinic_locations_repeater",
+                        "sub_fields": [
+                            {
+                                "key": "f_holiday_date",
+                                "label": "Date",
+                                "name": "date",
+                                "aria-label": "",
+                                "type": "date_picker",
+                                "instructions": "",
+                                "required": 1,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "return_format": "Y-m-d",
+                                "display_format": "d/m/Y",
+                                "first_day": 1,
+                                "default_to_current_date": 0,
+                                "parent_repeater": "field_location_public_holidays"
+                            },
+                            {
+                                "key": "f_holiday_opens",
+                                "label": "Opens",
+                                "name": "opens",
+                                "aria-label": "",
+                                "type": "time_picker",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "return_format": "g:i a",
+                                "display_format": "g:i a",
+                                "parent_repeater": "field_location_public_holidays"
+                            },
+                            {
+                                "key": "f_holiday_closes",
+                                "label": "Closes",
+                                "name": "closes",
+                                "aria-label": "",
+                                "type": "time_picker",
+                                "instructions": "",
+                                "required": false,
+                                "conditional_logic": false,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "return_format": "g:i a",
+                                "display_format": "g:i a",
+                                "parent_repeater": "field_location_public_holidays"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "field_location_pages",
+                        "label": "Display on Pages",
+                        "name": "location_pages",
+                        "aria-label": "",
+                        "type": "relationship",
+                        "instructions": "",
+                        "required": false,
+                        "conditional_logic": false,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "post_type": [
+                            "page"
+                        ],
+                        "return_format": "id",
+                        "taxonomy": [],
+                        "min": 0,
+                        "max": 0,
+                        "filters": [
+                            "search",
+                            "post_type",
+                            "taxonomy"
+                        ],
+                        "elements": [],
+                        "bidirectional_target": [],
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "aria-label": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "key": "field_location_booking_url",
+                        "label": "Booking Page URL",
+                        "name": "booking_url",
+                        "type": "url",
+                        "instructions": "Page where patients book for this location. Used for the HIPAA Map \"Book Appointment\" link.",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    },
+                    {
+                        "aria-label": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "key": "field_location_phreesia_url",
+                        "label": "Phreesia URL (this location)",
+                        "name": "phreesia_url",
+                        "type": "url",
+                        "instructions": "Optional. Overrides the global Phreesia URL for [phreesia_widget location=\"…\"].",
+                        "parent_repeater": "field_clinic_locations_repeater"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "options_page",
+                    "operator": "==",
+                    "value": "clinic-schema-settings"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "display_title": ""
+    },
+    {
+        "key": "group_69a8d6cf7accf",
+        "title": "Medical Conditions EEAT Data",
+        "fields": [
+            {
+                "key": "field_69a8d752c4086",
+                "label": "Condition Providers",
+                "name": "treatment_providers",
+                "aria-label": "",
+                "type": "relationship",
+                "instructions": "Select providers who diagnose and treat this condition.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": [
+                    "team"
+                ],
+                "post_status": [
+                    "publish"
+                ],
+                "taxonomy": "",
+                "filters": [
+                    "search",
+                    "post_type"
+                ],
+                "return_format": "id",
+                "min": "",
+                "max": "",
+                "allow_in_bindings": 0,
+                "elements": "",
+                "bidirectional": 0,
+                "bidirectional_target": []
+            },
+            {
+                "key": "field_69ac7af2fe3e4",
+                "label": "Condition Clinical Name",
+                "name": "clinical_name",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Clinical name of the medical condition and / or treatment",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_69a9e6cd9511a",
+                "label": "Clinical Description",
+                "name": "condition_description",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Include a technical description of the condition.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69ab76159c6a2",
+                "label": "Alternate Names",
+                "name": "alternate_names",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Format: Ensure text are strings. e.g. \"Acne Car Treatment\" separated by commas.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69adf02839aeb",
+                "label": "Epidemiology",
+                "name": "condition_epidemiology",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Who is typically affected (e.g., \"Commonly affects adolescents and young adults\") provides demographic context that search engines value for query matching.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69b1f6590cf5c",
+                "label": "Primary Cause(s)",
+                "name": "cause",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "The cause of a medical condition. Enter one per line.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": 4,
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69b1f6620cf5d",
+                "label": "Manual Symptoms",
+                "name": "sign_or_symptom",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "A sign or symptom of this condition. Enter one per line.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": 4,
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69adeff539aea",
+                "label": "Differential Diagnosis",
+                "name": "condition_differential_diagnosis",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "It lists conditions with similar symptoms (e.g., \"Rosacea\" or \"Folliculitis\"), demonstrating that the clinic understands the nuance of professional diagnosis. Enter one per line.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": 4,
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69bb49af92061",
+                "label": "Differential Diagnosis - Clinical Sub-Types",
+                "name": "sub_types",
+                "aria-label": "",
+                "type": "relationship",
+                "instructions": "References specific sub-types internal in the system,",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": [
+                    "treatment"
+                ],
+                "post_status": [
+                    "publish"
+                ],
+                "taxonomy": [
+                    "treatment-category:medical",
+                    "treatment-category:condition"
+                ],
+                "filters": [
+                    "search"
+                ],
+                "return_format": "id",
+                "min": "",
+                "max": "",
+                "allow_in_bindings": 0,
+                "elements": "",
+                "bidirectional": 0,
+                "bidirectional_target": []
+            },
+            {
+                "key": "field_69adef8a39ae8",
+                "label": "Associated Anatomy",
+                "name": "condition_associated_anatomy",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "The anatomy of the underlying organ system or structures associated with this entity. Enter one per line.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Skin",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": 4,
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69ac7e33a8419",
+                "label": "Primary Treatments (Internal Objects)",
+                "name": "possible_treatments_repeater",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "List possible treatments, link internally where possible.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "row",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Possible Treatment",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69ac8a319e077",
+                        "label": "Procedure Type",
+                        "name": "procedure_type",
+                        "aria-label": "",
+                        "type": "select",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "choices": {
+                            "MedicalProcedure": "Medical Procedure (Default)",
+                            "MedicalTherapy": "Medical Therapy (Systemic or medication based)",
+                            "SurgicalProcedure": "Surgical Procedure (Mohs, Excision)",
+                            "NonInvasiveProcedure": "Non-Invasive (Lasers, CoolSculpting)",
+                            "TherapeuticProcedure": "Therapeutic (Peels, Facials)",
+                            "DiagnosticProcedure": "Diagnostic (Biopsy, Exams)",
+                            "Drug": "Drug"
+                        },
+                        "default_value": false,
+                        "return_format": "value",
+                        "multiple": 0,
+                        "allow_null": 0,
+                        "allow_in_bindings": 0,
+                        "ui": 1,
+                        "ajax": 1,
+                        "placeholder": "",
+                        "create_options": 0,
+                        "save_options": 0,
+                        "parent_repeater": "field_69ac7e33a8419"
+                    },
+                    {
+                        "key": "field_69ac935f37d21",
+                        "label": "Medical Procedure Type",
+                        "name": "medical_procedure_type",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "The type of procedure, for example Surgical, Noninvasive, or Percutaneous.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69ac7e33a8419"
+                    },
+                    {
+                        "key": "field_69ac7e33a8424",
+                        "label": "Internal Treatment Link",
+                        "name": "internal_treatment",
+                        "aria-label": "",
+                        "type": "post_object",
+                        "instructions": "Specify related treatment available at clinic.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "post_type": [
+                            "treatment"
+                        ],
+                        "post_status": [
+                            "publish"
+                        ],
+                        "taxonomy": "",
+                        "return_format": "id",
+                        "multiple": 1,
+                        "allow_null": 0,
+                        "allow_in_bindings": 0,
+                        "bidirectional": 0,
+                        "ui": 1,
+                        "bidirectional_target": [],
+                        "parent_repeater": "field_69ac7e33a8419"
+                    }
+                ]
+            },
+            {
+                "key": "field_69caccb69e24f",
+                "label": "Primary Treatments (External Objects)",
+                "name": "primary_treatments_external",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "One per line.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69adefd039ae9",
+                "label": "Risk Factor",
+                "name": "condition_risk_factor",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Listing common risk factors (e.g., \"Hormonal changes\", \"Genetics\") shows a comprehensive understanding of the condition's pathogenesis.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69acca16c0bdb",
+                "label": "Source of Truth",
+                "name": "source_of_truth",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69acca47c0bdc",
+                        "label": "Same As",
+                        "name": "same_as",
+                        "aria-label": "",
+                        "type": "url",
+                        "instructions": "Authoritative sources that validate this condition - WikiData, WikiPedia, MayoClinic, PubMed, NIH, AAD.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "parent_repeater": "field_69acca16c0bdb"
+                    }
+                ]
+            },
+            {
+                "key": "field_69ac81b04ddb2",
+                "label": "Codes",
+                "name": "codes",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add New Code",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69ac81c74ddb3",
+                        "label": "ICD-10",
+                        "name": "icd-10",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "Only for medical dermatology",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69ac81b04ddb2"
+                    },
+                    {
+                        "key": "field_69ac81cf4ddb4",
+                        "label": "SNOMED",
+                        "name": "snowmed",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69ac81b04ddb2"
+                    }
+                ]
+            },
+            {
+                "key": "field_69accab3c0bde",
+                "label": "Condition Images",
+                "name": "condition_images",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69accabfc0be0",
+                        "label": "Image",
+                        "name": "image",
+                        "aria-label": "",
+                        "type": "image",
+                        "instructions": "For conditions, the image should be a clear, clinical representation of the signs or symptoms mentioned in the schema.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "array",
+                        "library": "all",
+                        "min_width": "",
+                        "min_height": "",
+                        "min_size": "",
+                        "max_width": "",
+                        "max_height": "",
+                        "max_size": "",
+                        "mime_types": "png,webp,avif,jpg",
+                        "allow_in_bindings": 0,
+                        "preview_size": "medium",
+                        "parent_repeater": "field_69accab3c0bde"
+                    }
+                ]
+            },
+            {
+                "key": "field_69bb4a3c0ca1b",
+                "label": "Parent Condition",
+                "name": "parent_condition",
+                "aria-label": "",
+                "type": "post_object",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": "",
+                "post_status": "",
+                "taxonomy": "",
+                "return_format": "id",
+                "multiple": 1,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "bidirectional": 0,
+                "ui": 1,
+                "bidirectional_target": []
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "treatment"
+                },
+                {
+                    "param": "post_taxonomy",
+                    "operator": "==",
+                    "value": "treatment-category:condition"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "display_title": ""
+    },
+    {
+        "key": "group_69ac99307e5b0",
+        "title": "Medical Procedures EEAT Data",
+        "fields": [
+            {
+                "key": "field_69ac993080e0d",
+                "label": "Procedure Providers",
+                "name": "treatment_providers",
+                "aria-label": "",
+                "type": "relationship",
+                "instructions": "Select providers who perform this procedure.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": [
+                    "team"
+                ],
+                "post_status": [
+                    "publish"
+                ],
+                "taxonomy": "",
+                "filters": [
+                    "search",
+                    "post_type"
+                ],
+                "return_format": "id",
+                "min": "",
+                "max": "",
+                "allow_in_bindings": 0,
+                "elements": "",
+                "bidirectional": 0,
+                "bidirectional_target": []
+            },
+            {
+                "key": "field_69ac993080e4d",
+                "label": "Clinical Procedure Name",
+                "name": "clinical_name",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Clinical name of the medical condition and / or treatment",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_69ac993080e89",
+                "label": "Alternate Names",
+                "name": "alternate_names",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "One per line.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69ac993080ec5",
+                "label": "Codes",
+                "name": "codes",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add New Code",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69ac99311fcbf",
+                        "label": "ICD-10",
+                        "name": "icd-10",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "Only for medical dermatology",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69ac993080ec5"
+                    },
+                    {
+                        "key": "field_69ac99311fd0a",
+                        "label": "SNOMED",
+                        "name": "snowmed",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69ac993080ec5"
+                    }
+                ]
+            },
+            {
+                "key": "field_69ac993080f3b",
+                "label": "Procedure Description",
+                "name": "procedure_description",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "Include a technical description of the procedure.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69ac993080f76",
+                "label": "Medical Conditions (Internal Objects)",
+                "name": "medical_conditions_repeater",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "List possible treatments, link internally where possible. Manual Conditions can be entered as part of an internal treatment for ease of entry, or separately in the repeater.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "row",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Possible Treatment",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69ac99312e751",
+                        "label": "Internal Medical Condition",
+                        "name": "internal_condition",
+                        "aria-label": "",
+                        "type": "post_object",
+                        "instructions": "Specify related treatment available at clinic.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "post_type": [
+                            "treatment"
+                        ],
+                        "post_status": [
+                            "publish"
+                        ],
+                        "taxonomy": "",
+                        "return_format": "id",
+                        "multiple": 1,
+                        "allow_null": 0,
+                        "allow_in_bindings": 0,
+                        "bidirectional": 0,
+                        "ui": 1,
+                        "bidirectional_target": [],
+                        "parent_repeater": "field_69ac993080f76"
+                    }
+                ]
+            },
+            {
+                "key": "field_69cab1dc4cdb9",
+                "label": "Medical Conditions (Outside Objects)",
+                "name": "medical_conditions_outside_objects",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "List medical conditions that do NOT link to internal condition pages. Enter one per line.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69ac99308102b",
+                "label": "Procedure Preparation",
+                "name": "procedure_preparation",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "High E-E-A-T signal for \"Patient Safety.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Arrive with cleansed skin. Avoid blood thinners/alcohol for 24h. Take all regularly prescribed medications unless told otherwise.",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69ac9930810e8",
+                "label": "Procedure Follow-Up",
+                "name": "procedure_followup",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "Keep site clean and moist with petroleum jelly. Apply SPF 30+. Avoid strenuous activity for 48h. Call if you experience severe pain or fever.",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69ac993081128",
+                "label": "Procedure Body Location",
+                "name": "procedure_body_location",
+                "aria-label": "",
+                "type": "checkbox",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Head_Neck": "Head and Neck",
+                    "Scalp": "Scalp",
+                    "Face": "Face",
+                    "Nose": "Nose",
+                    "Cheeks": "Cheeks",
+                    "Neck": "Neck",
+                    "Temples": "Temples",
+                    "Lips": "Lips",
+                    "Ears": "Ears",
+                    "Eyelids": "Eyelids",
+                    "Chin": "Chin",
+                    "Jawline": "Jawline",
+                    "Upper_Body": "Upper Body",
+                    "Chest": "Chest",
+                    "Abdomen": "Abdomen",
+                    "Back": "Back",
+                    "Shoulders": "Shoulders",
+                    "Armpits": "Armpits (Axilla)",
+                    "Arms": "Arms",
+                    "Hands": "Hands",
+                    "Dorsal_Hands": "Dorsal Hands",
+                    "Palms": "Palms",
+                    "Fingers": "Fingers",
+                    "Lower_Body": "Lower Body",
+                    "Hips": "Hips",
+                    "Buttocks": "Buttocks",
+                    "Groin": "Groin",
+                    "Genitalia": "Genitalia",
+                    "Legs": "Legs",
+                    "Thighs": "Thighs",
+                    "Knees": "Knees",
+                    "Lower_Legs": "Lower Legs",
+                    "Ankles": "Ankles",
+                    "Feet": "Feet",
+                    "Soles": "Soles (Plantar)",
+                    "Toes": "Toes",
+                    "Full_Body": "Full Body",
+                    "Sun_Exposed_Areas": "Sun-Exposed Areas",
+                    "Mucous_Membranes": "Mucous Membranes",
+                    "Acral_Localities": "Acral Localities",
+                    "Nails": "Nails"
+                },
+                "default_value": [],
+                "return_format": "label",
+                "allow_custom": 0,
+                "allow_in_bindings": 0,
+                "layout": "horizontal",
+                "toggle": 0,
+                "save_custom": 0,
+                "custom_choice_button_text": "Add new choice"
+            },
+            {
+                "key": "field_69accaef1c72b",
+                "label": "Source of Truth",
+                "name": "source_of_truth",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69accaef1c72c",
+                        "label": "Same As",
+                        "name": "same_as",
+                        "aria-label": "",
+                        "type": "url",
+                        "instructions": "Authoritative sources that validate this condition - WikiData, WikiPedia, MayoClinic, PubMed, NIH, AAD.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "parent_repeater": "field_69accaef1c72b"
+                    }
+                ]
+            },
+            {
+                "key": "field_69accaf31c72d",
+                "label": "Procedure Images",
+                "name": "procedure_images",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69accaf31c72e",
+                        "label": "Image",
+                        "name": "image",
+                        "aria-label": "",
+                        "type": "image",
+                        "instructions": "For conditions, the image should be a clear, clinical representation of the signs or symptoms mentioned in the schema.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "return_format": "array",
+                        "library": "all",
+                        "min_width": "",
+                        "min_height": "",
+                        "min_size": "",
+                        "max_width": "",
+                        "max_height": "",
+                        "max_size": "",
+                        "mime_types": "png,webp,avif,jpg",
+                        "allow_in_bindings": 0,
+                        "preview_size": "medium",
+                        "parent_repeater": "field_69accaf31c72d"
+                    }
+                ]
+            },
+            {
+                "key": "field_69ac993080fb2",
+                "label": "Reference",
+                "name": "reference",
+                "aria-label": "",
+                "type": "url",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "allow_in_bindings": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_69c983b4b005f",
+                "label": "Legal Status",
+                "name": "legal_status",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Legal Status (Optional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "treatment"
+                },
+                {
+                    "param": "post_taxonomy",
+                    "operator": "==",
+                    "value": "treatment-category:procedure"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "display_title": ""
+    },
+    {
+        "key": "group_69a8d0724d8a4",
+        "title": "Provider EEAT Data",
+        "fields": [
+            {
+                "key": "field_69a91ffeebfa6",
+                "label": "Name",
+                "name": "provider_name",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Property: name Example: Full name + primary degree (John Doe, MD)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_69a921933bf45",
+                "label": "Job Title",
+                "name": "exact_job_title",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "Property: jobTitle Example: Board-Certified Dermatologist",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_69a8d3eedb127",
+                "label": "Type",
+                "name": "provider_type",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Physician": "Physician",
+                    "Person": "Person"
+                },
+                "default_value": false,
+                "return_format": "value",
+                "multiple": 0,
+                "allow_null": 0,
+                "allow_in_bindings": 0,
+                "ui": 0,
+                "ajax": 0,
+                "placeholder": "",
+                "create_options": 0,
+                "save_options": 0
+            },
+            {
+                "key": "field_69a8d093348a9",
+                "label": "USNPI",
+                "name": "provider_npi",
+                "aria-label": "",
+                "type": "text",
+                "instructions": "NPI Lookup: https://npiregistry.cms.hhs.gov/search",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "placeholder": "",
+                "prepend": "",
+                "append": ""
+            },
+            {
+                "key": "field_69a8fbd0f5b99",
+                "label": "Alumni Of",
+                "name": "education_history",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "List all relevant medical institutions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69a8fbd0f5b9a",
+                        "label": "Organization Name",
+                        "name": "organization_name",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69a8fbd0f5b99"
+                    }
+                ]
+            },
+            {
+                "key": "field_69aceb13fc276",
+                "label": "Educational Occupational Credential",
+                "name": "educational_occupational_credential",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "List all relevant medical institutions",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "row",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Credential",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69aceb36fc278",
+                        "label": "Name",
+                        "name": "name",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "e.g. Doctor of Medicine",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69aceb13fc276"
+                    },
+                    {
+                        "key": "field_69aceb5efc279",
+                        "label": "Credential Category",
+                        "name": "credential_category",
+                        "aria-label": "",
+                        "type": "select",
+                        "instructions": "e.g. Degree",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "choices": {
+                            "degree": "Degree",
+                            "certification": "Certification",
+                            "fellowship": "Fellowship"
+                        },
+                        "default_value": "degree",
+                        "return_format": "value",
+                        "multiple": 0,
+                        "allow_null": 0,
+                        "allow_in_bindings": 0,
+                        "ui": 0,
+                        "ajax": 0,
+                        "placeholder": "",
+                        "create_options": 0,
+                        "save_options": 0,
+                        "parent_repeater": "field_69aceb13fc276"
+                    },
+                    {
+                        "key": "field_69aceb77fc27a",
+                        "label": "Recognized By",
+                        "name": "recognized_by",
+                        "aria-label": "",
+                        "type": "repeater",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "layout": "table",
+                        "min": 0,
+                        "max": 0,
+                        "collapsed": "",
+                        "button_label": "Add Organization",
+                        "rows_per_page": 20,
+                        "parent_repeater": "field_69aceb13fc276",
+                        "sub_fields": [
+                            {
+                                "key": "field_69aceb86fc27b",
+                                "label": "Type",
+                                "name": "type",
+                                "aria-label": "",
+                                "type": "select",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "choices": {
+                                    "EducationalOrganization": "Educational Organization",
+                                    "Organization": "Organization"
+                                },
+                                "default_value": false,
+                                "return_format": "value",
+                                "multiple": 0,
+                                "allow_null": 0,
+                                "allow_in_bindings": 0,
+                                "ui": 0,
+                                "ajax": 0,
+                                "placeholder": "",
+                                "create_options": 0,
+                                "save_options": 0,
+                                "parent_repeater": "field_69aceb77fc27a"
+                            },
+                            {
+                                "key": "field_69acebaffc27c",
+                                "label": "Name",
+                                "name": "name",
+                                "aria-label": "",
+                                "type": "text",
+                                "instructions": "e.g. Johns Hopkins University",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "maxlength": "",
+                                "allow_in_bindings": 0,
+                                "placeholder": "",
+                                "prepend": "",
+                                "append": "",
+                                "parent_repeater": "field_69aceb77fc27a"
+                            },
+                            {
+                                "key": "field_69acf12bf780a",
+                                "label": "Same As",
+                                "name": "same_as",
+                                "aria-label": "",
+                                "type": "url",
+                                "instructions": "",
+                                "required": 0,
+                                "conditional_logic": 0,
+                                "wrapper": {
+                                    "width": "",
+                                    "class": "",
+                                    "id": ""
+                                },
+                                "default_value": "",
+                                "allow_in_bindings": 0,
+                                "placeholder": "",
+                                "parent_repeater": "field_69aceb77fc27a"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "key": "field_69a8f7d68b096",
+                "label": "Knows About",
+                "name": "knows_about",
+                "aria-label": "",
+                "type": "textarea",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "maxlength": "",
+                "allow_in_bindings": 0,
+                "rows": "",
+                "placeholder": "",
+                "new_lines": ""
+            },
+            {
+                "key": "field_69a8d0e3348ab",
+                "label": "Affiliations (Hospital)",
+                "name": "affiliations",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69a8d0f8348ac",
+                        "label": "Name",
+                        "name": "name",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69a8d0e3348ab"
+                    }
+                ]
+            },
+            {
+                "key": "field_69a8d13f348b0",
+                "label": "Provider Profiles (sameAs)",
+                "name": "provider_profiles_sameas",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69a8d13f348b2",
+                        "label": "Same As Url",
+                        "name": "url",
+                        "aria-label": "",
+                        "type": "url",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "parent_repeater": "field_69a8d13f348b0"
+                    }
+                ]
+            },
+            {
+                "key": "field_69ace6cc3b250",
+                "label": "Member of Organization",
+                "name": "member_of",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "layout": "table",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "",
+                "button_label": "Add Row",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_69ace6e33b251",
+                        "label": "Name",
+                        "name": "name",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "maxlength": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_69ace6cc3b250"
+                    },
+                    {
+                        "key": "field_69ace6f13b252",
+                        "label": "Same As",
+                        "name": "same_as",
+                        "aria-label": "",
+                        "type": "url",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "allow_in_bindings": 0,
+                        "placeholder": "",
+                        "parent_repeater": "field_69ace6cc3b250"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "team"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "display_title": ""
+    }
+]
