@@ -1,8 +1,12 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.2
+**Current Version:** 3.2.3
 
 ---
+
+### [v3.2.3] - Blog author detection
+* **Bylines found more reliably:** the Blog Schema module now recognises "By …" with a capital B (most recent posts), a "Dr." before the name, middle initials ("Nnenna G. Agim"), short names and nicknames ("Becca Marcus", "Coco Lowenfield"), one-letter typos ("Jennifer Houk"), "Q&A with …", and posts that simply open with the provider's name. Before, only a lowercase "by" matched, so many posts fell back to the clinic as author.
+* A match still needs the surname plus a given name or nickname (or "Dr."), so ordinary sentences such as "caused by …" don't pick a provider. A post's **Written by** field always wins.
 
 ### [v3.2.2] - Works with each site's own post types
 * **Condition / procedure fields on any treatment post type:** the EEAT field groups now attach to `treatment`, `services` and `service`, the same types the schema already covered. Before, they attached to one type only (`treatment` unless a site set `dacs_treatment_post_type`), so on sites like Seacoast (`service`) the fields vanished from the editor and the schema had nothing to read. Relationship fields that point at treatments list whichever of those types the site has. New filter: `dacs_treatment_post_types` (array). The old `dacs_treatment_post_type` filter still works and narrows the list to the one type it returns.
