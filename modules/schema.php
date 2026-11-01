@@ -93,7 +93,9 @@ function dacs_inject_schema() {
 
     // --- 4. FORK: TREATMENT POST TYPE ---
     if ( is_singular( dacs_schema_treatment_post_types() ) ) {
-        $categories = wp_get_post_terms( $post_id, 'treatment-category', array( 'fields' => 'slugs' ) );
+        // Sites without the treatment-category taxonomy (e.g. Radiance's 'services' CPT) get a WP_Error here, which crashed in_array().
+        $categories = taxonomy_exists( 'treatment-category' ) ? wp_get_post_terms( $post_id, 'treatment-category', array( 'fields' => 'slugs' ) ) : array();
+        if ( is_wp_error( $categories ) || ! is_array( $categories ) ) $categories = array();
         $is_procedure = in_array( 'procedure', $categories );
         $is_condition = in_array( 'condition', $categories );
         $linked_providers = get_field('treatment_providers', $post_id);

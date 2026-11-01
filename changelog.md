@@ -1,8 +1,11 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.3
+**Current Version:** 3.2.4
 
 ---
+
+### [v3.2.4] - Fix: service pages crashing on sites without treatment categories
+* **No more critical error on treatment pages:** on sites whose treatments have no `treatment-category` taxonomy (for example Radiance, which uses a `services` post type), the Schema module crashed every treatment page with "There has been a critical error". It now treats those pages as having no condition/procedure category and outputs the page schema as normal.
 
 ### [v3.2.3] - Blog author detection
 * **Bylines found more reliably:** the Blog Schema module now recognises "By …" with a capital B (most recent posts), a "Dr." before the name, middle initials ("Nnenna G. Agim"), short names and nicknames ("Becca Marcus", "Coco Lowenfield"), one-letter typos ("Jennifer Houk"), "Q&A with …", and posts that simply open with the provider's name. Before, only a lowercase "by" matched, so many posts fell back to the clinic as author.
