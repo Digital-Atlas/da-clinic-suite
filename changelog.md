@@ -1,8 +1,17 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.6
+**Current Version:** 3.2.7
 
 ---
+
+### [v3.2.7] - One practice, equal offices
+* **The practice is one organization:** Yoast's Organization (`#organization`) is now the practice. Clinic Suite enriches it as a `MedicalOrganization` with the Practice Logo, Global sameAs links (merged with Yoast's), the primary location's phone as the main number, every location's Area Served, the Parent Organization, and every office as a `department`. On the homepage it also lists the Team providers as `employee`. Without Yoast's Organization, the plugin prints the same node itself. Replaces 3.2.6's name-matching merge, which only worked when the primary location had the same name as Yoast's Organization. Filters: `dacs_organization_id`, `dacs_schema_organization_type`, `dacs_schema_organization`.
+* **Every office is equal:** each location, including the one marked primary, is a `MedicalClinic` at `home#fragment` with its own address, hours, phone and page URL, and the practice as `parentOrganization`. The homepage no longer prints the primary office as if it were the whole business. "Is Primary Location?" now only picks the practice's main phone number.
+* **Providers work for the practice:** `worksFor` on Team pages, treatment pages, blog authors and the employee list now points at the organization, not the primary office.
+* **New "Practices at" field on Team posts** (side panel): tick the offices a provider regularly works at. Physicians get `practicesAt`, everyone else `workLocation` (the schema.org property for a Person). Leave it blank when a provider's offices change often; they are then linked to the practice only, never to a guessed office. Choices come from Clinic Settings → Locations and are stored by fragment, so reordering locations is safe (renaming a fragment is not). Filter: `dacs_provider_locations`.
+* **Insurance and price range stay on the offices:** `paymentAccepted` and `priceRange` are local-business properties, so they sit on each location, not the organization. Global sameAs moves from the locations to the organization.
+* **Blog author names** use the Provider name field, like everywhere else.
+* `dacs_primary_clinic_id()` still exists for custom code and now returns the organization @id.
 
 ### [v3.2.6] - Clinic schema: one local business, not two organisations
 * **One entity for the clinic:** when Yoast's Organization has the same name as the primary clinic, the clinic now uses Yoast's `@id`, so the two merge into one business. Before, the clinic named Yoast's Organization (itself) as its `parentOrganization`. When the names differ, Yoast's Organization is still the parent. Filter: `dacs_primary_clinic_id`.

@@ -199,7 +199,7 @@
                         "name": "is_primary",
                         "aria-label": "",
                         "type": "true_false",
-                        "instructions": "",
+                        "instructions": "Its phone number is used as the practice's main number in the organization schema. Every location, including this one, is output as its own office under the practice.",
                         "required": false,
                         "conditional_logic": false,
                         "wrapper": {

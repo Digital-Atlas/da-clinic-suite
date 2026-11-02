@@ -174,3 +174,38 @@ function dacs_opt( $name, $default ) {
 	$v = function_exists( 'get_field' ) ? get_field( $name, 'option' ) : get_option( 'options_' . $name, null );
 	return ( $v === null || $v === '' ) ? $default : $v; // false / 0 are real answers (e.g. a switch turned off)
 }
+
+/**
+ * v3.2.7: "Practices at" on provider posts. Optional offices a provider regularly works at; blank means the provider
+ * is linked to the practice only. Feeds practicesAt (physicians) / workLocation (everyone else) in the schema.
+ * Choices are the Clinic Settings locations, stored by fragment so reordering locations doesn't break the link.
+ */
+add_action( 'acf/include_fields', function () {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) return;
+	acf_add_local_field_group( array(
+		'key'      => 'group_dacs_provider_locations',
+		'title'    => 'Provider Locations',
+		'position' => 'side',
+		'style'    => 'default',
+		'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => (string) apply_filters( 'dacs_provider_post_type', 'team' ) ) ) ),
+		'fields'   => array(
+			dacs_f( 'practices_at', 'practices_at', 'Practices at', 'checkbox', array(
+				'instructions'  => 'Offices this provider regularly works at, as stated on the site. Leave blank if it changes often: the provider is still linked to the practice as a whole.',
+				'choices'       => array(),
+				'layout'        => 'vertical',
+				'return_format' => 'value',
+			) ),
+		),
+	) );
+} );
+
+add_filter( 'acf/load_field/key=field_dacs_practices_at', function ( $field ) {
+	$field['choices'] = array();
+	if ( function_exists( 'dacs_location_rows' ) ) {
+		foreach ( dacs_location_rows() as $r ) {
+			$frag = ltrim( trim( (string) ( $r['location_fragment'] ?? '' ) ), '/#' );
+			if ( $frag !== '' ) $field['choices'][ $frag ] = (string) ( $r['location_name'] ?? $frag );
+		}
+	}
+	return $field;
+} );

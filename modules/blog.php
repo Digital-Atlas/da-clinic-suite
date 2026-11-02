@@ -22,34 +22,23 @@ function dacs_provider_post_type() {
 	return (string) apply_filters( 'dacs_provider_post_type', 'team' );
 }
 
-/** Reference to the primary clinic entity (same @id the Schema module uses). */
+/** Reference to the practice (same @id as the Schema module's organization node). */
 function dacs_blog_clinic_ref() {
-	$name    = get_bloginfo( 'name' );
-	$primary = null;
-	$locs    = function_exists( 'get_field' ) ? get_field( 'clinic_locations', 'option' ) : null;
-	if ( is_array( $locs ) ) {
-		foreach ( $locs as $loc ) {
-			if ( ! empty( $loc['is_primary'] ) ) { $primary = $loc; $name = $loc['location_name'] ?: $name; break; }
-		}
-	}
-	$home = trailingslashit( get_home_url() );
-	return array( '@type' => dacs_clinic_schema_type( true ), '@id' => dacs_primary_clinic_id( $primary ), 'name' => $name, 'url' => $home );
+	return dacs_organization_ref( true );
 }
 
 /** Person node for a provider post, linked to the clinic. */
 function dacs_blog_provider_node( $provider_id ) {
 	$type  = function_exists( 'get_field' ) ? ( get_field( 'provider_type', $provider_id ) ?: 'Person' ) : 'Person';
 	$stype = function_exists( 'dacs_provider_schema_type' ) ? dacs_provider_schema_type( $type ) : ( $type === 'Physician' ? 'IndividualPhysician' : $type );
-	$clinic = dacs_blog_clinic_ref();
 	$node  = array(
 		'@type'    => array_values( array_unique( array( 'Person', $stype ) ) ),
 		'@id'      => get_permalink( $provider_id ) . '#provider',
-		'name'     => get_the_title( $provider_id ),
+		'name'     => dacs_provider_display_name( $provider_id ),
 		'url'      => get_permalink( $provider_id ),
 		'jobTitle' => function_exists( 'get_field' ) ? get_field( 'exact_job_title', $provider_id ) : '',
-		'worksFor' => array( '@id' => $clinic['@id'] ),
 	);
-	if ( $type === 'Physician' ) $node['practicesAt'] = array( '@id' => $clinic['@id'] );
+	$node  = array_merge( $node, dacs_provider_links( $provider_id, $stype ) );
 	$img = get_the_post_thumbnail_url( $provider_id, 'medium' );
 	if ( $img ) $node['image'] = $img;
 	$profiles = function_exists( 'get_field' ) ? get_field( 'provider_profiles_sameas', $provider_id ) : null;
