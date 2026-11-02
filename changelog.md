@@ -1,8 +1,13 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.4
+**Current Version:** 3.2.5
 
 ---
+
+### [v3.2.5] - Fix: editors can't save posts on UiCore Blocks sites (temporary)
+* **Editors and authors can save again:** UiCore Blocks saves each post's CSS through its own REST route just before the block editor saves the post, and that route only allows administrators. For everyone else every save failed ("Failed to update UiCore Blocks Assets." / "Publishing failed. Sorry, you are not allowed to do that."), including drafts and posts with no UiCore blocks. Clinic Suite now also allows that route for users who can edit the post (or `edit_theme_options` for widget areas). UiCore's own check is unchanged for everything else.
+* **No markup through CSS:** for users without `unfiltered_html`, `<` is removed from the CSS and font data and preload image URLs are sanitised before UiCore stores them, because UiCore prints that CSS unescaped.
+* Temporary until UiCore fixes the check upstream (`includes/uicore-compat.php`). Does nothing on sites without UiCore Blocks. Turn off per site with `add_filter( 'dacs_uicore_save_styles_fix', '__return_false' );`.
 
 ### [v3.2.4] - Fix: service pages crashing on sites without treatment categories
 * **No more critical error on treatment pages:** on sites whose treatments have no `treatment-category` taxonomy (for example Radiance, which uses a `services` post type), the Schema module crashed every treatment page with "There has been a critical error". It now treats those pages as having no condition/procedure category and outputs the page schema as normal.
