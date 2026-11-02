@@ -1,8 +1,16 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.5
+**Current Version:** 3.2.6
 
 ---
+
+### [v3.2.6] - Clinic schema: one local business, not two organisations
+* **One entity for the clinic:** when Yoast's Organization has the same name as the primary clinic, the clinic now uses Yoast's `@id`, so the two merge into one business. Before, the clinic named Yoast's Organization (itself) as its `parentOrganization`. When the names differ, Yoast's Organization is still the parent. Filter: `dacs_primary_clinic_id`.
+* **Parent group setting:** new **Parent Organization** and **Parent Organization URL** fields under Clinic Settings → Global Schema Defaults (for example "Forefront Dermatology"). When filled in, the primary clinic gets that group as `parentOrganization`.
+* **`MedicalClinic` for the primary clinic:** it was `MedicalOrganization`, which isn't a local business type, so search engines could ignore its address, coordinates, opening hours and payment details. `MedicalClinic` is both a medical organisation and a local business. Treatment, provider and blog references use the same type. Filter: `dacs_schema_clinic_type`.
+* **Settings that were never output:** Price Range now outputs as `priceRange` and a location's Area Served as `areaServed`. The clinic also gets `url` (the homepage, or a satellite's first linked page) and `image` (the logo).
+* **Cleaner values:** US phone numbers are output as `+1-502-339-2922` (the field itself, and what visitors see, is unchanged). Coordinates are numbers, not text. `medicalSpecialty` uses schema.org's `Dermatology` value.
+* **Provider names:** staff lists, treatment pages and provider pages use the **Provider name** field (for example "Michelle Hannigan, APRN"), falling back to the page title.
 
 ### [v3.2.5] - Fix: editors can't save posts on UiCore Blocks sites (temporary)
 * **Editors and authors can save again:** UiCore Blocks saves each post's CSS through its own REST route just before the block editor saves the post, and that route only allows administrators. For everyone else every save failed ("Failed to update UiCore Blocks Assets." / "Publishing failed. Sorry, you are not allowed to do that."), including drafts and posts with no UiCore blocks. Clinic Suite now also allows that route for users who can edit the post (or `edit_theme_options` for widget areas). UiCore's own check is unchanged for everything else.

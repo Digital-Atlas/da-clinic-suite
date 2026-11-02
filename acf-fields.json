@@ -118,6 +118,43 @@
                 "rows": ""
             },
             {
+                "aria-label": "",
+                "required": false,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "key": "field_global_clinic_parent_name",
+                "label": "Parent Organization",
+                "name": "global_clinic_parent_name",
+                "type": "text",
+                "instructions": "If this practice belongs to a larger group (for example \"Forefront Dermatology\"), its name. Becomes parentOrganization on the primary clinic. Leave blank if none.",
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "aria-label": "",
+                "required": false,
+                "conditional_logic": false,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "key": "field_global_clinic_parent_url",
+                "label": "Parent Organization URL",
+                "name": "global_clinic_parent_url",
+                "type": "url",
+                "instructions": "The parent group's website.",
+                "default_value": "",
+                "placeholder": "https://"
+            },
+            {
                 "key": "field_locations_repeater_tab",
                 "label": "Location Management",
                 "name": "",

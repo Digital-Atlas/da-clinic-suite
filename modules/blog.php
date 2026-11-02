@@ -24,20 +24,16 @@ function dacs_provider_post_type() {
 
 /** Reference to the primary clinic entity (same @id the Schema module uses). */
 function dacs_blog_clinic_ref() {
-	$fragment = '#main-clinic';
-	$name     = get_bloginfo( 'name' );
-	$locs     = function_exists( 'get_field' ) ? get_field( 'clinic_locations', 'option' ) : null;
+	$name    = get_bloginfo( 'name' );
+	$primary = null;
+	$locs    = function_exists( 'get_field' ) ? get_field( 'clinic_locations', 'option' ) : null;
 	if ( is_array( $locs ) ) {
 		foreach ( $locs as $loc ) {
-			if ( ! empty( $loc['is_primary'] ) ) {
-				$fragment = dacs_location_fragment( $loc['location_fragment'] ?? '', $fragment );
-				$name     = $loc['location_name'] ?: $name;
-				break;
-			}
+			if ( ! empty( $loc['is_primary'] ) ) { $primary = $loc; $name = $loc['location_name'] ?: $name; break; }
 		}
 	}
 	$home = trailingslashit( get_home_url() );
-	return array( '@type' => 'MedicalOrganization', '@id' => $home . $fragment, 'name' => $name, 'url' => $home );
+	return array( '@type' => dacs_clinic_schema_type( true ), '@id' => dacs_primary_clinic_id( $primary ), 'name' => $name, 'url' => $home );
 }
 
 /** Person node for a provider post, linked to the clinic. */

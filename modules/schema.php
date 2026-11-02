@@ -87,9 +87,8 @@ function dacs_inject_schema() {
 
     // --- 3. GLOBAL ENTITY LOGIC ---
     $base_url = trailingslashit( get_home_url() );
-    $primary_fragment = dacs_location_fragment( $primary_location['location_fragment'] ?? '', '#main-clinic' );
-    $clinic_id = $base_url . $primary_fragment;
-    $entity_type = "MedicalOrganization"; 
+    $clinic_id = dacs_primary_clinic_id( $primary_location );
+    $entity_type = dacs_clinic_schema_type( true );
 
     // --- 4. FORK: TREATMENT POST TYPE ---
     if ( is_singular( dacs_schema_treatment_post_types() ) ) {
@@ -308,7 +307,7 @@ function dacs_inject_schema() {
             foreach ($linked_providers as $p_id) { 
                 $p_t = get_field('provider_type', $p_id) ?: 'Person'; 
                 $npi = get_field('provider_npi', $p_id); 
-                $p_o = ["@type" => array_values(array_unique(["Person", dacs_provider_schema_type($p_t)])), "@id" => get_permalink($p_id) . "#provider", "name" => get_the_title($p_id), "url" => get_permalink($p_id), "worksFor" => ["@type" => $entity_type, "@id" => $clinic_id]]; 
+                $p_o = ["@type" => array_values(array_unique(["Person", dacs_provider_schema_type($p_t)])), "@id" => get_permalink($p_id) . "#provider", "name" => dacs_provider_display_name($p_id), "url" => get_permalink($p_id), "worksFor" => ["@type" => $entity_type, "@id" => $clinic_id]]; 
                 if ($p_t === 'Physician') $p_o["practicesAt"] = ["@type" => $entity_type, "@id" => $clinic_id];
                 if (!empty($npi)) { 
                     if ($p_t === 'Physician') $p_o["usNPI"] = $npi; 
@@ -327,7 +326,7 @@ function dacs_inject_schema() {
         $prefix = get_field('honorific_prefix', $post_id);
         $suffix = get_field('honorific_suffix', $post_id);
 
-        $provider_entity = ["@type" => array_values(array_unique(["Person", dacs_provider_schema_type($p_type)])), "@id" => get_permalink($post_id) . "#provider", "name" => get_the_title($post_id), "jobTitle" => get_field('exact_job_title', $post_id), "url" => get_permalink($post_id), "medicalSpecialty" => get_field('medical_specialties', $post_id) ?: ["Dermatology"], "worksFor" => ["@type" => $entity_type, "@id" => $clinic_id]];
+        $provider_entity = ["@type" => array_values(array_unique(["Person", dacs_provider_schema_type($p_type)])), "@id" => get_permalink($post_id) . "#provider", "name" => dacs_provider_display_name($post_id), "jobTitle" => get_field('exact_job_title', $post_id), "url" => get_permalink($post_id), "medicalSpecialty" => get_field('medical_specialties', $post_id) ?: ["Dermatology"], "worksFor" => ["@type" => $entity_type, "@id" => $clinic_id]];
 
         if ( !empty($prefix) ) { $provider_entity["honorificPrefix"] = $prefix; }
         if ( !empty($suffix) ) { $provider_entity["honorificSuffix"] = $suffix; }
@@ -365,19 +364,30 @@ function dacs_inject_schema() {
 
     // --- 6. SATELLITE / GLOBAL CLINIC INJECTION ---
     if ( $current_page_location ) {
-        $loc_id = trailingslashit( get_home_url() ) . dacs_location_fragment( $current_page_location['location_fragment'] ?? '', '#clinic' );
         $is_primary_row = !empty($current_page_location['is_primary']);
-        $local_entity_type = $is_primary_row ? "MedicalOrganization" : "MedicalClinic";
+        $loc_id = $is_primary_row ? $clinic_id : trailingslashit( get_home_url() ) . dacs_location_fragment( $current_page_location['location_fragment'] ?? '', '#clinic' );
+        $local_entity_type = dacs_clinic_schema_type( $is_primary_row );
 
-        $location_schema = ["@context" => "https://schema.org", "@type" => $local_entity_type, "@id" => $loc_id, "name" => $current_page_location['location_name'] ?? '', "telephone" => $current_page_location['phone'] ?? '', "medicalSpecialty" => "Dermatology", "isAcceptingNewPatients" => (bool)($current_page_location['is_accepting_new_patients'] ?? true), "address" => ["@type" => "PostalAddress", "streetAddress" => $current_page_location['address']['street'] ?? '', "addressLocality" => $current_page_location['address']['city'] ?? '', "addressRegion" => $current_page_location['address']['state'] ?? '', "postalCode" => $current_page_location['address']['zip'] ?? '', "addressCountry" => "US"], "geo" => ["@type" => "GeoCoordinates", "latitude" => $current_page_location['geo']['lat'] ?? '', "longitude" => $current_page_location['geo']['long'] ?? ''], "openingHoursSpecification" => []];
+        $location_schema = ["@context" => "https://schema.org", "@type" => $local_entity_type, "@id" => $loc_id, "name" => $current_page_location['location_name'] ?? '', "telephone" => dacs_schema_phone( $current_page_location['phone'] ?? '' ), "medicalSpecialty" => "https://schema.org/Dermatology", "isAcceptingNewPatients" => (bool)($current_page_location['is_accepting_new_patients'] ?? true), "address" => ["@type" => "PostalAddress", "streetAddress" => $current_page_location['address']['street'] ?? '', "addressLocality" => $current_page_location['address']['city'] ?? '', "addressRegion" => $current_page_location['address']['state'] ?? '', "postalCode" => $current_page_location['address']['zip'] ?? '', "addressCountry" => "US"], "geo" => ["@type" => "GeoCoordinates", "latitude" => is_numeric( $current_page_location['geo']['lat'] ?? '' ) ? (float) $current_page_location['geo']['lat'] : '', "longitude" => is_numeric( $current_page_location['geo']['long'] ?? '' ) ? (float) $current_page_location['geo']['long'] : ''], "openingHoursSpecification" => []];
 
         if ( !empty($current_page_location['opening_hours']) ) { foreach ($current_page_location['opening_hours'] as $h) { if (!empty($h['days'])) { $spec = ["@type" => "OpeningHoursSpecification", "dayOfWeek" => $h['days']]; if (empty($h['opens']) || empty($h['closes'])) { $spec["opens"] = "00:00"; $spec["closes"] = "00:00"; } else { $spec["opens"] = date("H:i", strtotime($h['opens'])); $spec["closes"] = date("H:i", strtotime($h['closes'])); } $location_schema["openingHoursSpecification"][] = $spec; } } }
 
         $holidays = $current_page_location['public_holidays'] ?? null;
         if (is_array($holidays)) { foreach ($holidays as $hol) { if (!empty($hol['date'])) { $h_spec = ["@type" => "OpeningHoursSpecification", "validFrom" => $hol['date'], "validThrough" => $hol['date']]; if (empty($hol['opens']) || empty($hol['closes'])) { $h_spec["opens"] = "00:00"; $h_spec["closes"] = "00:00"; } else { $h_spec["opens"] = date("H:i", strtotime($hol['opens'])); $h_spec["closes"] = date("H:i", strtotime($hol['closes'])); } $location_schema["openingHoursSpecification"][] = $h_spec; } } }
 
+        // url: the homepage for the primary clinic, else the location's first linked page.
+        $loc_pages = is_array( $current_page_location['location_pages'] ?? null ) ? $current_page_location['location_pages'] : [];
+        $first_page = $loc_pages ? ( is_object( $loc_pages[0] ) ? $loc_pages[0]->ID : (int) $loc_pages[0] ) : 0;
+        $location_schema["url"] = $is_primary_row ? trailingslashit( get_home_url() ) : ( $first_page ? get_permalink( $first_page ) : '' );
+
         $global_logo = get_field('global_clinic_logo', 'option');
-        if (!empty($global_logo)) $location_schema["logo"] = $global_logo;
+        if ( is_array( $global_logo ) ) $global_logo = $global_logo['url'] ?? '';
+        elseif ( is_numeric( $global_logo ) ) $global_logo = wp_get_attachment_image_url( (int) $global_logo, 'full' );
+        if (!empty($global_logo)) { $location_schema["logo"] = $global_logo; $location_schema["image"] = $global_logo; }
+        $price_range = get_field('global_clinic_pricerange', 'option');
+        if (!empty($price_range)) $location_schema["priceRange"] = $price_range;
+        $area_raw = $current_page_location['area_served'] ?? '';
+        if (!empty($area_raw)) $location_schema["areaServed"] = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', $area_raw ) ) ) );
         $global_sameas_raw = get_field('global_clinic_sameas', 'option');
         if (!empty($global_sameas_raw)) $location_schema["sameAs"] = array_filter(array_map('trim', explode("\n", $global_sameas_raw)));
         $insurance_raw = get_field('global_clinic_insurance', 'option');
@@ -388,15 +398,23 @@ function dacs_inject_schema() {
             $team_ids = get_posts( [ 'post_type' => apply_filters( 'dacs_provider_post_type', 'team' ), 'post_status' => 'publish', 'numberposts' => -1, 'fields' => 'ids', 'orderby' => 'menu_order date', 'order' => 'ASC' ] );
             foreach ( $team_ids as $t_id ) {
                 $t_type = get_field( 'provider_type', $t_id ) ?: 'Person';
-                $location_schema["employee"][] = [ "@type" => array_values( array_unique( [ "Person", dacs_provider_schema_type( $t_type ) ] ) ), "@id" => get_permalink( $t_id ) . "#provider", "name" => get_the_title( $t_id ), "jobTitle" => get_field( 'exact_job_title', $t_id ) ?: null, "url" => get_permalink( $t_id ), "worksFor" => [ "@id" => $loc_id ] ];
+                $location_schema["employee"][] = [ "@type" => array_values( array_unique( [ "Person", dacs_provider_schema_type( $t_type ) ] ) ), "@id" => get_permalink( $t_id ) . "#provider", "name" => dacs_provider_display_name( $t_id ), "jobTitle" => get_field( 'exact_job_title', $t_id ) ?: null, "url" => get_permalink( $t_id ), "worksFor" => [ "@id" => $loc_id ] ];
             }
         }
 
         if ( !$is_primary_row && $primary_location ) {
-            $location_schema["parentOrganization"] = ["@type" => "MedicalOrganization", "@id" => $clinic_id, "name" => $primary_location['location_name']];
-        } elseif ( $is_primary_row && ( $yoast_org = dacs_yoast_organization_id() ) ) {
-            // Link the primary clinic to Yoast's Organization instead of leaving two unrelated organisations.
-            $location_schema["parentOrganization"] = ["@id" => $yoast_org];
+            $location_schema["parentOrganization"] = ["@type" => $entity_type, "@id" => $clinic_id, "name" => $primary_location['location_name']];
+        } elseif ( $is_primary_row ) {
+            // Parent group (e.g. a practice that belongs to a larger network), set under Clinic Settings.
+            $parent_name = trim( (string) get_field('global_clinic_parent_name', 'option') );
+            $parent_url  = trim( (string) get_field('global_clinic_parent_url', 'option') );
+            $yoast_org   = dacs_yoast_organization_id();
+            if ( $parent_name !== '' ) {
+                $location_schema["parentOrganization"] = ["@type" => "MedicalOrganization", "name" => $parent_name, "url" => $parent_url];
+            } elseif ( $yoast_org && $yoast_org !== $clinic_id ) {
+                // Yoast's Organization is a different business from the clinic: it is the parent.
+                $location_schema["parentOrganization"] = ["@id" => $yoast_org];
+            }
         }
 
         // Address: drop entirely if only the hardcoded country would remain.

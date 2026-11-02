@@ -65,6 +65,48 @@ function dacs_yoast_organization_id() {
 	return apply_filters( 'dacs_yoast_organization_id', $id );
 }
 
+/**
+ * schema.org type for clinic entities. MedicalClinic is both a MedicalOrganization and a LocalBusiness, so
+ * address, geo, opening hours, price range and payment details count for local search. Filter: dacs_schema_clinic_type.
+ */
+function dacs_clinic_schema_type( $is_primary = true ) {
+	return (string) apply_filters( 'dacs_schema_clinic_type', 'MedicalClinic', (bool) $is_primary );
+}
+
+/** True when two business names match, ignoring case, spaces and punctuation. */
+function dacs_same_business_name( $a, $b ) {
+	$n = function ( $s ) { return strtolower( preg_replace( '/[^a-z0-9]/i', '', (string) $s ) ); };
+	return $n( $a ) !== '' && $n( $a ) === $n( $b );
+}
+
+/**
+ * @id of the primary clinic. When Yoast's Organization is the same business (same name), the clinic uses Yoast's
+ * @id so the two merge into one entity instead of one being the other's parent. Filter: dacs_primary_clinic_id.
+ */
+function dacs_primary_clinic_id( $primary = null ) {
+	$id    = trailingslashit( get_home_url() ) . dacs_location_fragment( $primary['location_fragment'] ?? '', '#main-clinic' );
+	$yoast = dacs_yoast_organization_id();
+	if ( $yoast && $primary ) {
+		$titles = get_option( 'wpseo_titles' );
+		if ( dacs_same_business_name( $titles['company_name'] ?? '', $primary['location_name'] ?? '' ) ) $id = $yoast;
+	}
+	return (string) apply_filters( 'dacs_primary_clinic_id', $id, $primary );
+}
+
+/** Phone for schema: US numbers become +1-502-339-2922 (the format Google asks for); anything else is kept as entered. */
+function dacs_schema_phone( $phone ) {
+	$d = preg_replace( '/\D/', '', (string) $phone );
+	if ( strlen( $d ) === 11 && $d[0] === '1' ) $d = substr( $d, 1 );
+	if ( strlen( $d ) === 10 ) return '+1-' . substr( $d, 0, 3 ) . '-' . substr( $d, 3, 3 ) . '-' . substr( $d, 6 );
+	return trim( (string) $phone );
+}
+
+/** Provider display name for schema: the Provider name field, falling back to the post title. */
+function dacs_provider_display_name( $provider_id ) {
+	$name = function_exists( 'get_field' ) ? trim( (string) get_field( 'provider_name', $provider_id ) ) : '';
+	return $name !== '' ? $name : get_the_title( $provider_id );
+}
+
 /** Find a location by 1-based index or (partial, case-insensitive) name. */
 function dacs_find_location( $needle ) {
 	$needle = trim( (string) $needle );
