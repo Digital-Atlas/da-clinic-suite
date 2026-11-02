@@ -67,9 +67,10 @@ add_filter( 'wpseo_schema_organization', function ( $data ) {
     return dacs_schema_organization_node( $data, is_front_page() );
 }, 20 );
 
-// Without Yoast's Organization: print the practice node ourselves.
+// Without Yoast's Organization on the page (no Yoast, Yoast set to a person, or Yoast's schema output off):
+// print the practice node ourselves. Same @id either way, so references from other nodes still resolve.
 add_action( 'wp_head', function () {
-    if ( dacs_yoast_organization_id() ) return;
+    if ( dacs_yoast_organization_id() && dacs_yoast_graph_printed() ) return;
     $node = dacs_schema_organization_node( array(), is_front_page() );
     if ( $node ) dacs_print_schema( array_merge( array( '@context' => 'https://schema.org' ), $node ) );
 }, 5 );

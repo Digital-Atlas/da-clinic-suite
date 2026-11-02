@@ -1,8 +1,13 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.8
+**Current Version:** 3.2.9
 
 ---
+
+### [v3.2.9] - Fix: no practice or blog schema when Yoast's Schema Framework is off
+* **Practice organization always on the page:** with Yoast active and set to a company, Clinic Suite assumed Yoast was printing its Organization and only enriched it. When Yoast's Schema Framework was switched off, nothing printed it, so the practice node (logo, Global sameAs, Parent Organization, departments) was missing and every `worksFor`, `provider`, `publisher` and `parentOrganization` reference pointed at an `#organization` that wasn't on the page. Clinic Suite now checks whether Yoast actually printed its graph and, if not, prints the practice node itself with the same `@id`.
+* **Blog schema without Yoast's graph:** the blog module's own WebPage + BlogPosting graph was skipped whenever Yoast was installed, even with its schema output off, so posts had no schema at all. It now prints whenever Yoast's graph isn't on the page.
+* New helper `dacs_yoast_graph_printed()` (filter: `dacs_yoast_graph_printed`). With Yoast's Schema Framework on, output is unchanged.
 
 ### [v3.2.8] - Fix: single-location practices keep their address on the homepage
 * **Single-location practices:** 3.2.7 stopped printing the primary office on the homepage. For a practice with only one location and no page linked to it, that left the address, hours and coordinates out of the schema entirely. When there is exactly one location, the homepage prints its `MedicalClinic` again, under the practice organization. Multi-location practices are unchanged: each office appears on its own page.

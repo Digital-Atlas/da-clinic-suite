@@ -8,7 +8,8 @@
  * of the post → the clinic itself. Reviewer: only when "Medically reviewed by" is set.
  *
  * With Yoast SEO active the module edits Yoast's schema graph (one graph per page, no duplicates).
- * Without Yoast it prints its own WebPage + BlogPosting graph.
+ * Without Yoast's graph on the page (no Yoast, or its Schema Framework switched off) it prints its own
+ * WebPage + BlogPosting graph.
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -178,7 +179,7 @@ add_filter( 'wpseo_enhanced_slack_data', function ( $data ) {
 
 // --- No Yoast: print our own graph ---
 add_action( 'wp_head', function () {
-	if ( defined( 'WPSEO_VERSION' ) || ! is_singular( dacs_blog_post_types() ) ) return;
+	if ( dacs_yoast_graph_printed() || ! is_singular( dacs_blog_post_types() ) ) return;
 	$post_id = get_queried_object_id();
 	$people  = dacs_blog_people( $post_id );
 	$clinic  = dacs_blog_clinic_ref();

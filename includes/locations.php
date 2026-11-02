@@ -65,6 +65,21 @@ function dacs_yoast_organization_id() {
 	return apply_filters( 'dacs_yoast_organization_id', $id );
 }
 
+/*
+ * Set when Yoast builds its schema graph for this request. Yoast prints it at wp_head priority 1, so by the time
+ * the fallbacks below run (priority 5 and later) this says whether Yoast's graph is on the page. It stays false
+ * when Yoast is active but its Schema Framework is switched off, or schema is disabled for the page.
+ */
+add_filter( 'wpseo_schema_graph', function ( $graph ) {
+	$GLOBALS['dacs_yoast_graph_printed'] = true;
+	return $graph;
+}, PHP_INT_MAX );
+
+/** Whether Yoast printed its schema graph on this page. Filter: dacs_yoast_graph_printed. */
+function dacs_yoast_graph_printed() {
+	return (bool) apply_filters( 'dacs_yoast_graph_printed', ! empty( $GLOBALS['dacs_yoast_graph_printed'] ) );
+}
+
 /**
  * schema.org type for location entities. MedicalClinic is both a MedicalOrganization and a LocalBusiness, so
  * address, geo, opening hours, price range and payment details count for local search. Filter: dacs_schema_clinic_type.
