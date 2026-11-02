@@ -1,8 +1,11 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.9
+**Current Version:** 3.2.10
 
 ---
+
+### [v3.2.10] - Fix: practice organization missing when Yoast has no logo
+* **Checks for Yoast's Organization, not just its graph:** Yoast leaves its Organization out of the graph when the site representation has a company name but no logo. 3.2.9 only checked that Yoast's graph was printed, so the practice node was still missing and `worksFor`, `provider`, `publisher` and `parentOrganization` still pointed at an `#organization` that wasn't on the page. The fallback now prints the practice node unless Yoast's graph actually contains it. New helper `dacs_yoast_org_printed()` (filter: `dacs_yoast_org_printed`).
 
 ### [v3.2.9] - Fix: no practice or blog schema when Yoast's Schema Framework is off
 * **Practice organization always on the page:** with Yoast active and set to a company, Clinic Suite assumed Yoast was printing its Organization and only enriched it. When Yoast's Schema Framework was switched off, nothing printed it, so the practice node (logo, Global sameAs, Parent Organization, departments) was missing and every `worksFor`, `provider`, `publisher` and `parentOrganization` reference pointed at an `#organization` that wasn't on the page. Clinic Suite now checks whether Yoast actually printed its graph and, if not, prints the practice node itself with the same `@id`.

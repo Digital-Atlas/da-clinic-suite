@@ -66,18 +66,32 @@ function dacs_yoast_organization_id() {
 }
 
 /*
- * Set when Yoast builds its schema graph for this request. Yoast prints it at wp_head priority 1, so by the time
- * the fallbacks below run (priority 5 and later) this says whether Yoast's graph is on the page. It stays false
- * when Yoast is active but its Schema Framework is switched off, or schema is disabled for the page.
+ * Records what Yoast actually put in its schema graph for this request. Yoast prints the graph at wp_head
+ * priority 1, so the fallbacks below (priority 5 and later) can rely on it. Nothing is recorded when Yoast's
+ * Schema Framework is off or schema is disabled for the page. Yoast also leaves its Organization out of the
+ * graph when the site representation has no logo, even with a company name set, so the Organization is
+ * checked separately.
  */
 add_filter( 'wpseo_schema_graph', function ( $graph ) {
 	$GLOBALS['dacs_yoast_graph_printed'] = true;
+	$org_id = dacs_organization_id();
+	foreach ( (array) $graph as $piece ) {
+		if ( is_array( $piece ) && ( $piece['@id'] ?? '' ) === $org_id ) {
+			$GLOBALS['dacs_yoast_org_printed'] = true;
+			break;
+		}
+	}
 	return $graph;
 }, PHP_INT_MAX );
 
 /** Whether Yoast printed its schema graph on this page. Filter: dacs_yoast_graph_printed. */
 function dacs_yoast_graph_printed() {
 	return (bool) apply_filters( 'dacs_yoast_graph_printed', ! empty( $GLOBALS['dacs_yoast_graph_printed'] ) );
+}
+
+/** Whether Yoast's graph on this page contains the practice Organization. Filter: dacs_yoast_org_printed. */
+function dacs_yoast_org_printed() {
+	return (bool) apply_filters( 'dacs_yoast_org_printed', ! empty( $GLOBALS['dacs_yoast_org_printed'] ) );
 }
 
 /**
