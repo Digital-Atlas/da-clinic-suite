@@ -1,8 +1,11 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.7
+**Current Version:** 3.2.8
 
 ---
+
+### [v3.2.8] - Fix: single-location practices keep their address on the homepage
+* **Single-location practices:** 3.2.7 stopped printing the primary office on the homepage. For a practice with only one location and no page linked to it, that left the address, hours and coordinates out of the schema entirely. When there is exactly one location, the homepage prints its `MedicalClinic` again, under the practice organization. Multi-location practices are unchanged: each office appears on its own page.
 
 ### [v3.2.7] - One practice, equal offices
 * **The practice is one organization:** Yoast's Organization (`#organization`) is now the practice. Clinic Suite enriches it as a `MedicalOrganization` with the Practice Logo, Global sameAs links (merged with Yoast's), the primary location's phone as the main number, every location's Area Served, the Parent Organization, and every office as a `department`. On the homepage it also lists the Team providers as `employee`. Without Yoast's Organization, the plugin prints the same node itself. Replaces 3.2.6's name-matching merge, which only worked when the primary location had the same name as Yoast's Organization. Filters: `dacs_organization_id`, `dacs_schema_organization_type`, `dacs_schema_organization`.

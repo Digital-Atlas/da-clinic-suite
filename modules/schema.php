@@ -95,6 +95,12 @@ function dacs_inject_schema() {
         }
     }
 
+    // Single-location practice: its one office is the business, so the homepage carries its address and hours
+    // (as before 3.2.7). Multi-location practices show each office on its own page only.
+    if ( ! $current_page_location && is_front_page() && is_array($locations) && count($locations) === 1 ) {
+        $current_page_location = reset($locations);
+    }
+
     // --- 3. GLOBAL ENTITY LOGIC ---
     // v3.2.7: providers, treatments and blog posts point at the practice (the organization), not one office.
     // The homepage no longer prints the primary office; the organization node covers it (see dacs_schema_organization_node).
@@ -388,7 +394,7 @@ function dacs_inject_schema() {
         if (is_array($holidays)) { foreach ($holidays as $hol) { if (!empty($hol['date'])) { $h_spec = ["@type" => "OpeningHoursSpecification", "validFrom" => $hol['date'], "validThrough" => $hol['date']]; if (empty($hol['opens']) || empty($hol['closes'])) { $h_spec["opens"] = "00:00"; $h_spec["closes"] = "00:00"; } else { $h_spec["opens"] = date("H:i", strtotime($hol['opens'])); $h_spec["closes"] = date("H:i", strtotime($hol['closes'])); } $location_schema["openingHoursSpecification"][] = $h_spec; } } }
 
         // url: the office's own page (its first linked page, else its booking URL).
-        $location_schema["url"] = dacs_location_url( $current_page_location );
+        $location_schema["url"] = dacs_location_url( $current_page_location ) ?: ( is_front_page() ? $base_url : '' );
 
         $global_logo = dacs_global_logo_url();
         if (!empty($global_logo)) $location_schema["image"] = $global_logo;
