@@ -1,8 +1,12 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.13
+**Current Version:** 3.2.14
 
 ---
+
+### [v3.2.14] - Fix: page jumps when UiCore template styles load late
+* **Breakpoint CSS loads with the page:** UiCore Blocks prints each post's mobile, tablet and desktop stylesheets as `media="print"` and switches them on after the first paint. The main post also gets inline critical CSS, but Theme Builder templates (headers, footers, single-post layouts) don't, so their layout rules arrived late and the page jumped when they applied (Radiance service pages: CLS 0.24 mobile, 0.49 desktop). These stylesheets now print with their real media query, so only the one for the current screen size is fetched before rendering. They are 1–10 KB each.
+* Sites without UiCore Blocks are unaffected. Turn off with `add_filter( 'dacs_uicore_sync_breakpoint_css', '__return_false' );`.
 
 ### [v3.2.13] - Fix: map stays blank when MapLibre loads late
 * **Waits for MapLibre instead of giving up:** `map.js` built the map only if MapLibre was already loaded when it ran, and quietly did nothing otherwise. Performance and consent plugins (FlyingPress "delay JS", WP Rocket, OneTrust auto-blocking) can re-inject MapLibre async or hold it until the visitor interacts, so on some loads, often on phones, the map area stayed empty with no error. The script now listens for MapLibre's script to finish loading and builds the map then, however late it arrives.

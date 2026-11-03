@@ -86,3 +86,29 @@ add_filter( 'rest_request_before_callbacks', function ( $response, $handler, $re
 	}
 	return $response;
 }, 10, 3 );
+
+/*
+ * UiCore Blocks: load each block's breakpoint CSS normally, not after first paint.
+ *
+ * UiCore prints every post's breakpoint styles (uicore-{id}-mobile/-tablet/-desktop.css) as
+ * media="print" with an onload that switches the media query on. That defers them until after the
+ * first paint. The main post also gets its styles inlined as critical CSS, but Theme Builder templates
+ * (headers, footers, single-post layouts) don't, so their layout rules arrive late and the page jumps
+ * when they apply. On Radiance the Service template's top section moved by 0.24 CLS on mobile and
+ * 0.49 on desktop.
+ *
+ * The files are small (1–10 KB each) and only the one matching the screen blocks rendering, so this
+ * prints them with their real media query instead. A page optimiser (FlyingPress, WP Rocket) then
+ * treats them like any other stylesheet.
+ *
+ * Turn off on a site with: add_filter( 'dacs_uicore_sync_breakpoint_css', '__return_false' );
+ */
+add_filter( 'style_loader_tag', function ( $tag, $handle ) {
+	if ( ! preg_match( '/^uicore-bl-p-[\w-]+-(mobile|tablet|desktop)$/', $handle ) ) return $tag;
+	if ( ! apply_filters( 'dacs_uicore_sync_breakpoint_css', true, $handle ) ) return $tag;
+	if ( ! preg_match( '/\sonload=(["\'])this\.onload=null;\s*this\.media=\\\\?([\'"])(.*?)\2\1/', $tag, $m ) ) return $tag;
+
+	$media = $m[3];
+	$tag   = str_replace( $m[0], '', $tag );
+	return preg_replace( '/\smedia=([\'"])print\1/', ' media=' . "'" . esc_attr( $media ) . "'", $tag, 1 );
+}, PHP_INT_MAX, 2 );
