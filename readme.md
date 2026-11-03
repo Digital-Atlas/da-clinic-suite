@@ -66,7 +66,7 @@ Hooks:
 1. **Procedures:** `MedicalProcedure` with body location, preparation, and the conditions treated.
 2. **Conditions:** `MedicalCondition` with codes (ICD-10, SNOMED), epidemiology, risk factors, symptoms and sub-types (`differentialDiagnosis`).
 3. **Team:** `Person` + `IndividualPhysician` (physicians) or `Person`, with credentials, education, expertise (`knowsAbout`), memberships, affiliations, profiles (`sameAs`) and NPI. Linked to the clinic through `worksFor` and `practicesAt`.
-4. **Clinic / locations:** `MedicalOrganization` (primary) or `MedicalClinic` with address, geo, opening hours, holidays, logo, `sameAs` and insurance. The primary clinic lists the Team providers as `employee`.
+4. **Clinic / locations:** `MedicalOrganization` (primary) or `MedicalClinic` with address, geo, opening hours, holidays, logo, `sameAs` and accepted insurance (one `additionalProperty` "Accepted insurance" per insurer). The primary clinic lists the Team providers as `employee`.
 5. **Blog posts:** `BlogPosting` authored by a provider: the post's **Written by** field, else the provider named in a "by …" byline, else the clinic. **Medically reviewed by** adds `reviewedBy` / `lastReviewed` to the WebPage. With Yoast SEO the module rewrites Yoast's Article into a BlogPosting and drops the WordPress user's Person node, so there is one graph per page.
 
 ## Updates and releases

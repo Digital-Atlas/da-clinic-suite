@@ -103,7 +103,7 @@
                 "name": "global_clinic_insurance",
                 "aria-label": "",
                 "type": "textarea",
-                "instructions": "One per line.",
+                "instructions": "One insurer per line. Output on each office as additionalProperty \"Accepted insurance\" (not paymentAccepted).",
                 "required": false,
                 "conditional_logic": false,
                 "wrapper": {

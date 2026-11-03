@@ -1,8 +1,11 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.10
+**Current Version:** 3.2.11
 
 ---
+
+### [v3.2.11] - Insurance output as insurance, not payment methods
+* **No more `paymentAccepted` for insurers:** the Accepted Insurance list was printed on each office as `paymentAccepted`, which schema.org defines as payment methods (cash, credit card, financing), not insurance plans. Each insurer is now an `additionalProperty` on the office: a `PropertyValue` named "Accepted insurance" with the plan name as its value. `paymentAccepted` is no longer output.
 
 ### [v3.2.10] - Fix: practice organization missing when Yoast has no logo
 * **Checks for Yoast's Organization, not just its graph:** Yoast leaves its Organization out of the graph when the site representation has a company name but no logo. 3.2.9 only checked that Yoast's graph was printed, so the practice node was still missing and `worksFor`, `provider`, `publisher` and `parentOrganization` still pointed at an `#organization` that wasn't on the page. The fallback now prints the practice node unless Yoast's graph actually contains it. New helper `dacs_yoast_org_printed()` (filter: `dacs_yoast_org_printed`).

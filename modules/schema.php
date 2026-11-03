@@ -404,9 +404,15 @@ function dacs_inject_schema() {
         if (!empty($price_range)) $location_schema["priceRange"] = $price_range;
         $area_raw = $current_page_location['area_served'] ?? '';
         if (!empty($area_raw)) $location_schema["areaServed"] = dacs_lines( $area_raw );
-        // Insurance is accepted practice-wide but paymentAccepted is a LocalBusiness property, so it sits on each office.
+        // Insurance: schema.org has no "accepts insurance" property on a clinic, and paymentAccepted means payment
+        // methods (cash, card), not insurers. Each insurer is a labelled PropertyValue (additionalProperty is a
+        // Place property, and MedicalClinic is a Place), so the plan names are output as insurance and nothing else.
         $insurance_raw = get_field('global_clinic_insurance', 'option');
-        if (!empty($insurance_raw)) $location_schema["paymentAccepted"] = dacs_lines( $insurance_raw );
+        if (!empty($insurance_raw)) {
+            foreach ( dacs_lines( $insurance_raw ) as $insurer ) {
+                $location_schema["additionalProperty"][] = ["@type" => "PropertyValue", "name" => "Accepted insurance", "value" => $insurer];
+            }
+        }
 
         $location_schema["parentOrganization"] = dacs_organization_ref( true );
 
