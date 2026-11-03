@@ -53,7 +53,7 @@
 		var markers = (cfg.markers || []).filter(function (m) {
 			return m.lngLat && isFinite(m.lngLat[0]) && isFinite(m.lngLat[1]);
 		});
-		if (!markers.length || typeof maplibregl === 'undefined') return;
+		if (!markers.length || root.dacsMap) return;
 
 		var canvas = root.querySelector('.dacs-map-canvas');
 		var cards = cfg.showCards ? root.querySelector('.dacs-map-cards') : null;
@@ -95,9 +95,26 @@
 		}
 	}
 
-	function init() {
+	function buildAll() {
 		var maps = document.querySelectorAll('[data-dacs-map]');
 		for (var i = 0; i < maps.length; i++) build(maps[i]);
+	}
+
+	// MapLibre can arrive after this file: performance plugins (FlyingPress "delay JS", WP Rocket,
+	// consent managers) re-inject it async or only after the visitor interacts. Build as soon as it's
+	// there instead of giving up. A capture-phase listener sees the load event of any <script>,
+	// including ones injected later, so there is no timeout to outlast.
+	function onScriptLoad() {
+		if (typeof maplibregl === 'undefined') return;
+		document.removeEventListener('load', onScriptLoad, true);
+		buildAll();
+	}
+
+	function init() {
+		if (!document.querySelector('[data-dacs-map]')) return;
+		if (typeof maplibregl !== 'undefined') return buildAll();
+		document.addEventListener('load', onScriptLoad, true);
+		window.addEventListener('load', onScriptLoad);
 	}
 
 	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

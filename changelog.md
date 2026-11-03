@@ -1,8 +1,12 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.12
+**Current Version:** 3.2.13
 
 ---
+
+### [v3.2.13] - Fix: map stays blank when MapLibre loads late
+* **Waits for MapLibre instead of giving up:** `map.js` built the map only if MapLibre was already loaded when it ran, and quietly did nothing otherwise. Performance and consent plugins (FlyingPress "delay JS", WP Rocket, OneTrust auto-blocking) can re-inject MapLibre async or hold it until the visitor interacts, so on some loads, often on phones, the map area stayed empty with no error. The script now listens for MapLibre's script to finish loading and builds the map then, however late it arrives.
+* **Each map builds once:** a map that's already built is skipped, so a second trigger can't draw it twice.
 
 ### [v3.2.12] - Self-scheduling widget loads lazily
 * **Lazy-loaded Phreesia iframe:** the widget's iframe was `loading="eager"`, so the full Phreesia app loaded during the first paint even when the widget sat far down the page (on the NDDA homepage it's ~4,800px down). It now defaults to `loading="lazy"`; browsers still load it straight away when it's on screen.
