@@ -30,7 +30,19 @@
 			var src = frame.getAttribute('src') || '';
 			if (utms && src.indexOf('utm_') === -1) frame.setAttribute('src', src + utms);
 			frame.addEventListener('load', function () { hideLoader(frame); });
-			setTimeout(function () { hideLoader(frame); }, 8000); // never leave the spinner up
+			// Never leave the spinner up. A lazy frame may not start loading until it's scrolled to,
+			// so start the fallback timer when it nears the viewport rather than at page load.
+			if (frame.getAttribute('loading') === 'lazy' && 'IntersectionObserver' in window) {
+				var io = new IntersectionObserver(function (entries) {
+					if (entries[0].isIntersecting) {
+						io.disconnect();
+						setTimeout(function () { hideLoader(frame); }, 8000);
+					}
+				}, { rootMargin: '200px' });
+				io.observe(frame);
+			} else {
+				setTimeout(function () { hideLoader(frame); }, 8000);
+			}
 		});
 
 		window.addEventListener('message', function (event) {

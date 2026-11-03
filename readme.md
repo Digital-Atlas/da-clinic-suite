@@ -33,8 +33,9 @@ The Freshpaint environment ID is global (`DACS_FRESHPAINT_ENV_ID` in `da-clinic-
 ```
 [phreesia_widget]
 [phreesia_widget location="2" height="400"]
+[phreesia_widget loading="eager"]
 ```
-`location` uses that location's Phreesia URL, falling back to the global one. Several widgets can sit on one page.
+`location` uses that location's Phreesia URL, falling back to the global one. Several widgets can sit on one page. The iframe is lazy-loaded by default; use `loading="eager"` when the widget is at the top of the page (filter: `dacs_scheduling_iframe_loading`).
 
 ## Moving a site to the suite
 

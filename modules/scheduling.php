@@ -3,6 +3,7 @@
  * Module: Self-Scheduling (formerly the Phreesia Self-Scheduling Widget plugin v2.4).
  * [phreesia_widget]              → global Phreesia URL (Clinic Settings → Self-Scheduling)
  * [phreesia_widget location="2"] → that location's Phreesia URL, falling back to the global one
+ * [phreesia_widget loading="eager"] → load the iframe straight away (default: lazy, loads as it nears the viewport)
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -15,7 +16,7 @@ function dacs_scheduling_shortcode( $atts ) {
 	static $instance = 0;
 	$instance++;
 
-	$atts = shortcode_atts( array( 'location' => '', 'height' => '' ), $atts, 'phreesia_widget' );
+	$atts = shortcode_atts( array( 'location' => '', 'height' => '', 'loading' => '' ), $atts, 'phreesia_widget' );
 
 	$url = '';
 	if ( $atts['location'] !== '' ) {
@@ -31,6 +32,14 @@ function dacs_scheduling_shortcode( $atts ) {
 	$height = (int) ( $atts['height'] !== '' ? $atts['height'] : dacs_opt( 'dacs_sched_height', 300 ) );
 	$height = max( 100, $height );
 
+	// Lazy by default: the widget is usually well below the fold, and an eager iframe pulls in the whole
+	// Phreesia app during the first paint. Browsers still load a lazy iframe right away when it's on screen.
+	$loading = strtolower( (string) $atts['loading'] );
+	if ( ! in_array( $loading, array( 'lazy', 'eager' ), true ) ) {
+		$loading = (string) apply_filters( 'dacs_scheduling_iframe_loading', 'lazy', $atts );
+		if ( ! in_array( $loading, array( 'lazy', 'eager' ), true ) ) $loading = 'lazy';
+	}
+
 	wp_enqueue_style( 'dacs-scheduling' );
 	wp_enqueue_script( 'dacs-scheduling' );
 
@@ -44,7 +53,7 @@ function dacs_scheduling_shortcode( $atts ) {
 				<img src="<?php echo esc_url( DACS_URL . 'assets/img/loader.svg' ); ?>" alt="" width="150" />
 			</div>
 			<iframe id="<?php echo esc_attr( $iframe_id ); ?>" class="dacs-scheduler-frame" src="<?php echo $url; ?>"
-				style="height:<?php echo (int) $height; ?>px" title="Schedule an Appointment" loading="eager"></iframe>
+				style="height:<?php echo (int) $height; ?>px" title="Schedule an Appointment" loading="<?php echo esc_attr( $loading ); ?>"></iframe>
 		</section>
 	</div>
 	<?php

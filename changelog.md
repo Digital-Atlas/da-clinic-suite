@@ -1,8 +1,13 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.11
+**Current Version:** 3.2.12
 
 ---
+
+### [v3.2.12] - Self-scheduling widget loads lazily
+* **Lazy-loaded Phreesia iframe:** the widget's iframe was `loading="eager"`, so the full Phreesia app loaded during the first paint even when the widget sat far down the page (on the NDDA homepage it's ~4,800px down). It now defaults to `loading="lazy"`; browsers still load it straight away when it's on screen.
+* **`loading` shortcode attribute:** `[phreesia_widget loading="eager"]` keeps the old behaviour for pages where the widget is at the top. Site-wide default via the `dacs_scheduling_iframe_loading` filter.
+* The 8-second spinner fallback now starts when a lazy widget nears the viewport instead of at page load.
 
 ### [v3.2.11] - Insurance output as insurance, not payment methods
 * **No more `paymentAccepted` for insurers:** the Accepted Insurance list was printed on each office as `paymentAccepted`, which schema.org defines as payment methods (cash, credit card, financing), not insurance plans. Each insurer is now an `additionalProperty` on the office: a `PropertyValue` named "Accepted insurance" with the plan name as its value. `paymentAccepted` is no longer output.
