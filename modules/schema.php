@@ -353,7 +353,25 @@ function dacs_inject_schema() {
         if ( !empty($suffix) ) { $provider_entity["honorificSuffix"] = $suffix; }
         
         $credentials = get_field('educational_occupational_credential', $post_id);
-        if ( is_array($credentials) ) { foreach ( $credentials as $cred ) { $provider_entity["hasCredential"][] = ["@type" => "EducationalOccupationalCredential", "name" => $cred['name'] ?? '']; } }
+        if ( is_array($credentials) ) {
+            foreach ( $credentials as $cred ) {
+                if ( trim( (string) ( $cred['name'] ?? '' ) ) === '' ) continue;
+                $node = ["@type" => "EducationalOccupationalCredential", "name" => trim( (string) $cred['name'] )];
+                // v3.2.15: the category (degree / certification / fellowship) and issuing bodies were saved but never output.
+                $category = trim( (string) ( $cred['credential_category'] ?? '' ) );
+                if ( $category !== '' ) $node["credentialCategory"] = $category;
+                $issuers = is_array( $cred['recognized_by'] ?? null ) ? $cred['recognized_by'] : array();
+                foreach ( $issuers as $org ) {
+                    $org_name = trim( (string) ( $org['name'] ?? '' ) );
+                    if ( $org_name === '' ) continue;
+                    $org_type = in_array( $org['type'] ?? '', array( 'EducationalOrganization', 'Organization' ), true ) ? $org['type'] : 'Organization';
+                    $org_node = ["@type" => $org_type, "name" => $org_name];
+                    if ( ! empty( $org['same_as'] ) ) $org_node["sameAs"] = esc_url_raw( $org['same_as'] );
+                    $node["recognizedBy"][] = $org_node;
+                }
+                $provider_entity["hasCredential"][] = apply_filters( 'dacs_schema_provider_credential', $node, $cred, $post_id );
+            }
+        }
 
         $edu = get_field('education_history', $post_id); 
         if ( is_array($edu) ) { foreach ($edu as $e) { if ( !empty($e['organization_name']) ) { $provider_entity["alumniOf"][] = ["@type" => "EducationalOrganization", "name" => $e['organization_name']]; } } }

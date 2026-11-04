@@ -1,8 +1,12 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.14
+**Current Version:** 3.2.15
 
 ---
+
+### [v3.2.15] - Provider credentials output in full
+* **Credential category and issuer:** each provider's Educational Occupational Credential rows saved a Credential Category (degree, certification, fellowship) and Recognized By organizations (type, name, sameAs), but the schema only printed the credential name. Each credential now carries `credentialCategory` and a `recognizedBy` list (`EducationalOrganization` or `Organization`, with `sameAs` when set). Rows without a name are skipped.
+* New filter `dacs_schema_provider_credential` (node, ACF row, post ID) to adjust a credential before output.
 
 ### [v3.2.14] - Fix: page jumps when UiCore template styles load late
 * **Breakpoint CSS loads with the page:** UiCore Blocks prints each post's mobile, tablet and desktop stylesheets as `media="print"` and switches them on after the first paint. The main post also gets inline critical CSS, but Theme Builder templates (headers, footers, single-post layouts) don't, so their layout rules arrived late and the page jumped when they applied (Radiance service pages: CLS 0.24 mobile, 0.49 desktop). These stylesheets now print with their real media query, so only the one for the current screen size is fetched before rendering. They are 1–10 KB each.
