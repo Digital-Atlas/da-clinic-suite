@@ -8,6 +8,7 @@ One plugin for Digital Atlas dermatology sites. It replaces three plugins and ad
 | **HIPAA Map** | Freshpaint Map Shortcode + Admin v2.1 | `[freshpaint_map]` |
 | **Self-Scheduling** | Phreesia Self-Scheduling Widget v2.4 | `[phreesia_widget]` |
 | **Blog Schema** | — (new in 3.2) | — (edits Yoast's graph, or prints its own) |
+| **User Privacy** | — (new in 3.3) | — (hides login names from visitors) |
 
 Each module is switched on or off under **Clinic Settings → Modules**. A module that is off loads no code. Its shortcode renders nothing, so pages never show raw shortcode text.
 
@@ -61,6 +62,8 @@ Hooks:
 * `dacs_provider_post_type` (string, default `team`): post type that holds providers.
 * `dacs_blog_author` / `dacs_blog_reviewer` (int provider ID, post ID): override the detected author or reviewer.
 * `dacs_schema_clinic_employees` (bool): set false to leave providers off the clinic entity.
+* `dacs_privacy_can_view_users` (bool, default `current_user_can( 'edit_posts' )`): who can still see user data when User Privacy is on.
+* `dacs_privacy_block_rest_users` / `dacs_privacy_block_author_scan` / `dacs_privacy_strip_oembed_author` (bool, default true): switch off one part of User Privacy.
 
 ## Schema architecture
 

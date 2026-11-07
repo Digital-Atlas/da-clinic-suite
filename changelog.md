@@ -1,8 +1,13 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.2.15
+**Current Version:** 3.3.0
 
 ---
+
+### [v3.3.0] - New module: User Privacy
+* **Login names hidden from visitors:** WordPress publishes every author's login name through the REST API user list (`/wp-json/wp/v2/users`), `?author=N` redirects and oEmbed responses, which hands attackers half of each login. The new User Privacy module blocks the user list for anyone who can't edit posts (401), redirects `?author=` lookups to the homepage, and removes the author name and URL from oEmbed. `/author/<slug>/` archives are left alone.
+* **Editors and connectors unaffected:** logged-in users with `edit_posts` keep the user list, so the block editor's author picker works. Application-password requests (MCP connectors) authenticate first and keep access when their user can edit posts.
+* On by default, with its own switch under **Clinic Settings → Modules**. Filters: `dacs_privacy_can_view_users`, `dacs_privacy_block_rest_users`, `dacs_privacy_block_author_scan`, `dacs_privacy_strip_oembed_author`.
 
 ### [v3.2.15] - Provider credentials output in full
 * **Credential category and issuer:** each provider's Educational Occupational Credential rows saved a Credential Category (degree, certification, fellowship) and Recognized By organizations (type, name, sameAs), but the schema only printed the credential name. Each credential now carries `credentialCategory` and a `recognizedBy` list (`EducationalOrganization` or `Organization`, with `sameAs` when set). Rows without a name are skipped.

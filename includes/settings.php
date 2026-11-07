@@ -48,6 +48,7 @@ add_action( 'acf/include_fields', function () {
 			dacs_toggle( 'map', 'Enable / Disable: HIPAA Map', 'Freshpaint map for [freshpaint_map], built from the clinic locations below.' ),
 			dacs_toggle( 'scheduling', 'Enable / Disable: Self-Scheduling', 'Phreesia booking widget for [phreesia_widget].' ),
 			dacs_toggle( 'blog', 'Enable / Disable: Blog Schema', 'BlogPosting schema for blog posts, with a provider as author and an optional medical reviewer.' ),
+			dacs_toggle( 'privacy', 'Enable / Disable: User Privacy', 'Hides WordPress login names from visitors: the REST API user list, ?author= lookups and oEmbed author details. Logged-in editors are unaffected.' ),
 
 			dacs_tab( 'scheduling', 'Self-Scheduling' ),
 			// Same key and name as the old "Phreesia Connections" field, so the saved URL carries over untouched.
