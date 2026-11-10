@@ -1,8 +1,12 @@
 # Digital Atlas Clinic Suite — Changelog
 
-**Current Version:** 3.3.0
+**Current Version:** 3.3.1
 
 ---
+
+### [v3.3.1] - Security fix: UiCore save-styles cleanup bypass
+* **Cleanup now runs whatever the route's letter case:** WordPress matches REST routes case-insensitively, so the widened permission check on UiCore's save-styles endpoint also applied to requests like `/uicore-blocks/v1/Save-Styles`. The `<`-stripping that makes that permission safe compared the route exactly, so a mixed-case request skipped it and a Contributor could store `</style><script>` in a post's styles. The route is now lowercased before the comparison.
+* Only affects sites with UiCore Blocks active. No settings change.
 
 ### [v3.3.0] - New module: User Privacy
 * **Login names hidden from visitors:** WordPress publishes every author's login name through the REST API user list (`/wp-json/wp/v2/users`), `?author=N` redirects and oEmbed responses, which hands attackers half of each login. The new User Privacy module blocks the user list for anyone who can't edit posts (401), redirects `?author=` lookups to the homepage, and removes the author name and URL from oEmbed. `/author/<slug>/` archives are left alone.

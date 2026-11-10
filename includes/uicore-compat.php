@@ -63,7 +63,7 @@ add_filter( 'rest_endpoints', function ( $endpoints ) {
 
 /** Runs after the permission check and before UiCore's callback: clean the payload for users without unfiltered_html. */
 add_filter( 'rest_request_before_callbacks', function ( $response, $handler, $request ) {
-	if ( is_wp_error( $response ) || DACS_UICORE_SAVE_STYLES_ROUTE !== $request->get_route() ) return $response;
+	if ( is_wp_error( $response ) || DACS_UICORE_SAVE_STYLES_ROUTE !== strtolower( $request->get_route() ) ) return $response;
 	if ( ! apply_filters( 'dacs_uicore_save_styles_fix', true ) || current_user_can( 'unfiltered_html' ) ) return $response;
 
 	foreach ( array( 'styles', 'fonts' ) as $key ) {
